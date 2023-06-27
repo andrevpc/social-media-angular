@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="JwtSecurity" Version="0.1.0" />
+    <PackageReference Include="Microsoft.AspNet.WebPages" Version="3.2.6" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.8">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

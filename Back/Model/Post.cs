@@ -13,6 +13,8 @@ public partial class Post
 
     public byte[] Upload { get; set; }
 
+    public int? Likes { get; set; }
+
     public int OwnerId { get; set; }
 
     public int ForumId { get; set; }
@@ -25,7 +27,7 @@ public partial class Post
 
     public virtual ICollection<Post> InversePosts { get; set; } = new List<Post>();
 
-    public virtual ICollection<Like> Likes { get; set; } = new List<Like>();
+    public virtual ICollection<Like> LikesNavigation { get; set; } = new List<Like>();
 
     public virtual User Owner { get; set; }
 

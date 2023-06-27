@@ -7,6 +7,7 @@ using Security.Jwt;
 using Back;
 using Back.Model;
 using Back.Services;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +17,15 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<ProjetoAngularContext>();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
+
+builder.Services.AddTransient<ISecurityService, SecurityService>();
+
+
+builder.Services.AddTransient<IPasswordProvider>(
+    p => new PasswordProvider("senhadoandre"));
+
 builder.Services.AddTransient<JwtService>();
+
 
 var app = builder.Build();
 
