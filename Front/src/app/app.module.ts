@@ -11,6 +11,9 @@ import { NgModule } from '@angular/core';
 import { NewPostComponent } from './new-post/new-post.component';
 import { NewForumComponent } from './new-forum/new-forum.component';
 import { HttpClientModule } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
+import { ModalModule } from './modal/modal.module';
+import { ModalComponent } from './modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +31,8 @@ import { HttpClientModule } from '@angular/common/http';
     SignInComponent,
     LogInComponent,
     BrowserModule,
+    CommonModule,
+    ModalModule
   ],
   providers: [],
   bootstrap: [AppComponent]

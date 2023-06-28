@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { LogInUserService } from '../log-in-user.service';
+import { LogInUserService } from '../services/user/log-in-user.service';
 import { ILoginUser } from '../ILoginUser';
 import { Router } from '@angular/router';
 

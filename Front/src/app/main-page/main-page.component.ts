@@ -13,6 +13,8 @@ import {MatIconModule} from '@angular/material/icon';
 import {NgFor, AsyncPipe} from '@angular/common';
 import {map, startWith} from 'rxjs/operators';
 import {Observable} from 'rxjs';
+import { ModalComponent } from '../modal/modal.component';
+import { ModalModule } from '../modal/modal.module';
 
 export interface Task {
   name: string;
@@ -30,7 +32,7 @@ export interface Task {
   imports: [MatGridListModule, MatCheckboxModule, NgFor, FormsModule,
     MatFormFieldModule, MatInputModule, ReactiveFormsModule,
     MatAutocompleteModule, AsyncPipe, ScrollingModule,
-    MatButtonModule, MatDividerModule, MatIconModule],
+    MatButtonModule, MatDividerModule, MatIconModule, ModalModule],
 })
 export class MainPageComponent {
 

@@ -49,9 +49,20 @@
     </section>
 </div>
 
-<a id="btn" href="/new-forum-component">
-    <button style="font-size:xx-large" mat-mini-fab color="primary" aria-label="Example icon button with a menu icon">
+<a id="btn">
+    <button (click)="modal.toggle()" style="font-size:xx-large" mat-mini-fab color="primary"
+        aria-label="Example icon button with a menu icon">
         +
     </button>
+    <app-modal #modal>
+        <div class="modal-container">
+            <div class="inputs">
+                <p>
+                    <a href="/new-forum-component">New forum</a>
+                </p>
+                <a href="/new-post-component">New post</a>
+            </div>
+        </div>
+    </app-modal>
     <button mat-button color="accent">Accent</button>
 </a>

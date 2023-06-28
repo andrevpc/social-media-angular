@@ -83,4 +83,27 @@ CREATE TABLE Token(
 	OwnerID INT FOREIGN KEY REFERENCES Users(Id) NOT NULL
 )
 
+GO
+
+CREATE TRIGGER LikeTrigger
+	ON Likes
+	AFTER INSERT
+AS
+BEGIN
+	DECLARE
+	@PostID INT, @IsLike BIT
+	SELECT @IsLike = IsLike, @PostID = PostsID FROM INSERTED
+
+	IF @IsLike = 1
+		UPDATE Posts
+		SET Posts.Likes = Posts.Likes + 1 
+		WHERE Posts.ID = @PostID
+	ELSE 
+		UPDATE Posts 
+		SET Posts.Likes = Posts.Likes -1
+		WHERE Posts.ID = @PostID
+END
+GO
+
 select * from Users
+select * from Forums
