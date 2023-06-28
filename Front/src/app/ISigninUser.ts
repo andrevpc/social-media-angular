@@ -1,7 +1,7 @@
-export interface IUser
+export interface ISignUser
 {
-    Email : string
-    Username : string
-    Age : Date
-    Password : string
+    email : string
+    username : string
+    age : Date
+    password : string
 }

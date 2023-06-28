@@ -7,6 +7,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { LogInUserService } from '../log-in-user.service';
+import { ILoginUser } from '../ILoginUser';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-log-in',
@@ -29,4 +32,27 @@ export class LogInComponent {
 
     return this.email.hasError('email') ? 'Not a valid email' : '';
   }
+  
+  constructor(private service: LogInUserService, private router: Router) { }
+
+  LogInUserService: ILoginUser =
+    {
+      username: "",
+      password: ""
+    }
+
+  add() {
+    this.service.add(this.LogInUserService)
+      .subscribe(res => {
+        console.log(res.success)
+        if(res.success)
+        {
+          this.router.navigate(['/main-page-component']);
+        }
+      })
+  }
+
+  username = new FormControl('', [Validators.required, Validators.minLength(8)]);
+  password = new FormControl('', [Validators.required, Validators.minLength(8)]);
+
 }

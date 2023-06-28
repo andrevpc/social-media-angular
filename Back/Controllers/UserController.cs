@@ -8,12 +8,14 @@ namespace Back.Controllers;
 using Services;
 using Data;
 using Back.Model;
+using Microsoft.AspNetCore.Cors;
 
 [ApiController]
 [Route("user")]
+[EnableCors("MainPolicy")]
 public class UserController : ControllerBase
 {
-    [HttpPost("register")]
+    [HttpPost("signin")]
     public async Task<ActionResult<SigninResult>> Signin(
         [FromBody]SigninData data,
         [FromServices]IUserRepository repo,

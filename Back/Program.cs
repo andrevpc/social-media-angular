@@ -26,9 +26,23 @@ builder.Services.AddTransient<IPasswordProvider>(
 
 builder.Services.AddTransient<JwtService>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "MainPolicy",
+        policy =>
+        {
+            policy
+                .AllowAnyHeader()
+                .AllowAnyOrigin()
+                .AllowAnyMethod();
+        });
+});
+
+// builder.Services.AddTransient<INewUser<UserTable>, NewUser>(); 
 
 var app = builder.Build();
 
+app.UseCors();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -40,5 +54,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
 
 app.Run();

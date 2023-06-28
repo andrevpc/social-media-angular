@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { NgModule } from '@angular/core';
 import { NewPostComponent } from './new-post/new-post.component';
 import { NewForumComponent } from './new-forum/new-forum.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -23,9 +24,10 @@ import { NewForumComponent } from './new-forum/new-forum.component';
     NewForumComponent,
     AppRoutingModule,
     NewPostComponent,
+    HttpClientModule,
     SignInComponent,
     LogInComponent,
-    BrowserModule
+    BrowserModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
