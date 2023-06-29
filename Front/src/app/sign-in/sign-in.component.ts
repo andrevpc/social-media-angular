@@ -8,7 +8,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {ErrorStateMatcher, MatNativeDateModule} from '@angular/material/core';
 import { SignInUserService } from '../services/user/sign-in-user.service';
-import { ISignUser } from '../ISigninUser';
+import { ISignUser } from '../Interfaces/ISigninUser';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {

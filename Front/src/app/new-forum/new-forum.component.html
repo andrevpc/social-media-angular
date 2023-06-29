@@ -4,16 +4,19 @@
             <input type="file" style="margin-bottom: 10px;" class="file-upload" onchange="console.log(event.target.files)">
             <mat-form-field class="example-full-width">
                 <mat-label>Title</mat-label>
-                <input matInput placeholder="Ex. Pizza">
+                <input matInput placeholder="Ex. Pizza" name="title" [formControl]="title"
+                [(ngModel)]="NewForumService.title" required>
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
                 <mat-label>Description</mat-label>
-                <textarea matInput placeholder="Ex. It makes me feel..."></textarea>
+                <textarea matInput placeholder="Ex. It makes me feel..."
+                name="forumDescription" [formControl]="forumDescription"
+                [(ngModel)]="NewForumService.forumDescription" required></textarea>
             </mat-form-field>
         </form>
         <div style="display: flex; justify-content: center;" class="example-button-row">
-            <button mat-raised-button color="primary">Primary</button>
+            <button (click)="add()" mat-raised-button color="primary">Primary</button>
         </div>
     </div>
 </div>
