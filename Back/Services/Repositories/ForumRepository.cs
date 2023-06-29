@@ -36,6 +36,19 @@ public class ForumRepository : IForumRepository
         return theForum;
     }
 
+    public async Task<Forum> FindById(int id)
+    {
+        var query =
+            from forum in context.Forums
+            where forum.Id == id
+            select forum;
+        
+        var forumList = await query.ToListAsync();
+        var theForum = forumList.FirstOrDefault();
+        
+        return theForum;
+    }
+
     public async Task Update(Forum forum)
     {
         context.Update(forum);

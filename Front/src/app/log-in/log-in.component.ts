@@ -38,16 +38,17 @@ export class LogInComponent {
   LogInUserService: ILoginUser =
     {
       username: "",
-      password: ""
+      password: "",
     }
 
   add() {
     this.service.add(this.LogInUserService)
       .subscribe(res => {
-        console.log(res.success)
+        console.log(res.jwt)
         if(res.success)
         {
           this.router.navigate(['/main-page-component']);
+          sessionStorage.setItem("Id", res.jwt)
         }
       })
   }

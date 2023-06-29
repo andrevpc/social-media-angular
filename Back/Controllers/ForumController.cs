@@ -16,12 +16,12 @@ using Microsoft.AspNetCore.Cors;
 public class ForumController : ControllerBase
 {
     [HttpPost("create")]
-    public async Task<ActionResult<ForumData>> create(
-        [FromBody]ForumData data,
+    public async Task<ActionResult<ForumCreateData>> create(
+        [FromBody]ForumCreateData data,
         [FromServices]IForumRepository repo,
-        [FromServices]ISecurityService security)
+        [FromServices]JwtService jwt)
     {
-        ForumData result = new ForumData();
+        ForumCreateData result = new ForumCreateData();
 
         var forum = await repo.FindByTitle(data.Title);
         if (!(forum is null))
@@ -43,15 +43,33 @@ public class ForumController : ControllerBase
         [FromServices]IForumRepository repo,
         [FromServices]ISecurityService security)
     {
-        ForumData result = new ForumData();
 
-        var forum = await repo.FindByTitle(data.Title);
-        if (!(forum is null))
+        Forum forum = await repo.FindById(data.Id);
+        if (forum is null)
         {
-            return Ok(result);
+
+            return BadRequest();
         }
 
         await repo.Delete(forum);
-        return Ok(result);
+        return Ok();
+    }
+
+    [HttpPost("update")]
+    public async Task<ActionResult<ForumUpdateData>> update(
+        [FromBody]ForumUpdateData data,
+        [FromServices]IForumRepository repo)
+    {
+
+        Forum forum = await repo.FindById(data.Id);
+        if (forum is null)
+        {
+            return BadRequest();
+        }
+        forum.Title = data.Title;
+        forum.ForumDescription = data.ForumDescription;
+
+        await repo.Update(forum);
+        return Ok();
     }
 }

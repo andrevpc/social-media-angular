@@ -10,5 +10,6 @@ public interface IForumRepository
     Task Create(Forum forum);
     Task Update(Forum forum);
     Task Delete(Forum forum);
-    Task<Forum> FindByTitle(string name);
+    Task<Forum> FindByTitle(string title);
+    Task<Forum> FindById(int id);
 }
