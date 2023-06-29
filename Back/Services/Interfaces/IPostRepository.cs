@@ -11,4 +11,5 @@ public interface IPostRepository
     Task Update(Post post);
     Task Delete(Post post);
     Task<List<Post>> OrderByLikes(int indexPage);
+    Task<Post> FindById(int id);
 }

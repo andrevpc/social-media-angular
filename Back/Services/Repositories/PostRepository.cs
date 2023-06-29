@@ -23,6 +23,20 @@ public class PostRepository : IPostRepository
         context.Remove(post);
         await context.SaveChangesAsync();
     }
+
+    public async Task<Post> FindById(int id)
+    {
+        var query =
+            from post in context.Posts
+            where post.Id == id
+            select post;
+        
+        var postList = await query.ToListAsync();
+        var thePost = postList.FirstOrDefault();
+        
+        return thePost;
+    }
+
     public async Task<List<Post>> OrderByLikes(int indexPage)
     {
 

@@ -16,12 +16,12 @@ using Microsoft.AspNetCore.Cors;
 public class PostController : ControllerBase
 {
     [HttpPost("create")]
-    public async Task<ActionResult<PostData>> create(
-            [FromBody] PostData data,
+    public async Task<ActionResult<PostCreateData>> create(
+            [FromBody] PostCreateData data,
             [FromServices] IPostRepository repo,
             [FromServices] JwtService jwt)
     {
-        PostData result = new PostData();
+        PostCreateData result = new PostCreateData();
 
         Post newPost = new Post();
         newPost.Title = data.Title;
@@ -35,20 +35,18 @@ public class PostController : ControllerBase
     }
 
     [HttpPost("delete")]
-    public async Task<ActionResult<ForumData>> delete(
-        [FromBody] ForumData data,
-        [FromServices] IForumRepository repo,
-        [FromServices] ISecurityService security)
+    public async Task<ActionResult<PostData>> delete(
+            [FromBody] PostData data,
+            [FromServices] IPostRepository repo,
+            [FromServices] JwtService jwt)
     {
-
-        Forum forum = await repo.FindById(data.Id);
-        if (forum is null)
+        Post post = await repo.FindById(data.Id);
+        if (post is null)
         {
-
             return BadRequest();
         }
 
-        await repo.Delete(forum);
+        await repo.Delete(post);
         return Ok();
     }
 
