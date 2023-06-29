@@ -31,7 +31,7 @@ public class ForumController : ControllerBase
         Forum newForum = new Forum();
         newForum.Title = data.Title;
         newForum.ForumDescription = data.ForumDescription;
-        newForum.OwnerId = data.OwnerId;
+        newForum.OwnerId = jwt.Validate<UserData>(data.OwnerIdjwt).UserID;
 
         await repo.Create(newForum);
         return Ok(result);
