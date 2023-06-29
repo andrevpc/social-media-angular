@@ -12,4 +12,5 @@ public interface IForumRepository
     Task Delete(Forum forum);
     Task<Forum> FindByTitle(string title);
     Task<Forum> FindById(int id);
+    Task<List<Forum>> GetAllForumsThatTheUserCanPost();
 }

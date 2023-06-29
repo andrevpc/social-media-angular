@@ -3,6 +3,7 @@ using System.Linq;
 
 namespace Back.Services;
 
+using System.Collections.Generic;
 using Back.Model;
 using Microsoft.EntityFrameworkCore;
 
@@ -53,5 +54,16 @@ public class ForumRepository : IForumRepository
     {
         context.Update(forum);
         await context.SaveChangesAsync();
+    }
+
+    public async Task<List<Forum>> GetAllForumsThatTheUserCanPost()
+    {
+        var query =
+            from forum in context.Forums
+            select forum;
+        
+        var forumList = await query.ToListAsync();
+        
+        return forumList;
     }
 }

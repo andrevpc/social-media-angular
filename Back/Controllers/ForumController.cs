@@ -22,12 +22,7 @@ public class ForumController : ControllerBase
         [FromServices]JwtService jwt)
     {
         ForumCreateData result = new ForumCreateData();
-
-        var forum = await repo.FindByTitle(data.Title);
-        if (!(forum is null))
-        {
-            return Ok(result);
-        }
+        
         Forum newForum = new Forum();
         newForum.Title = data.Title;
         newForum.ForumDescription = data.ForumDescription;
@@ -71,5 +66,14 @@ public class ForumController : ControllerBase
 
         await repo.Update(forum);
         return Ok();
+    }
+
+    [HttpGet("userCanPost")]
+    public async Task<ActionResult> allforums(
+        [FromServices] IForumRepository repo)
+    {
+        var list = await repo.GetAllForumsThatTheUserCanPost();
+
+        return Ok(list);
     }
 }

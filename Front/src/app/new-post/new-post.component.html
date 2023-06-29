@@ -1,32 +1,48 @@
 <div id="sign">
     <div id="centre">
         <form class="example-form">
-            <input type="file" style="margin-bottom: 10px;" class="file-upload" onchange="console.log(event.target.files)">
+            <input type="file" style="margin-bottom: 10px;" class="file-upload"
+                onchange="console.log(event.target.files)">
             <mat-form-field class="example-full-width">
                 <mat-label>Title</mat-label>
-                <input matInput placeholder="Ex. Pizza">
+                <input matInput placeholder="Ex. Pizza" name="title" [formControl]="title"
+                    [(ngModel)]="NewPostService.title" required>
             </mat-form-field>
 
-            <mat-form-field>
-                <mat-label>Forum</mat-label>
-                <mat-select [formControl]="selected" [errorStateMatcher]="matcher">
-                    <mat-option>Clear</mat-option>
-                    <mat-option value="valid">Valid option</mat-option>
-                    <mat-option value="invalid">Invalid option</mat-option>
-                </mat-select>
-                <mat-error *ngIf="selected.hasError('required')">You must make a selection</mat-error>
-                <mat-error *ngIf="selected.hasError('pattern') && !selected.hasError('required')">
-                    Your selection is invalid
-                </mat-error>
-            </mat-form-field>
+            <form>
+                <mat-form-field style="height: auto;" class="example-chip-list">
+                    <mat-label>Favorite Fruits</mat-label>
+                    <mat-chip-grid #chipGrid aria-label="Fruit selection">
+                        <mat-chip-row *ngFor="let fruit of fruits" (removed)="remove(fruit)">
+                            {{fruit}}
+                            <button matChipRemove [attr.aria-label]="'remove ' + fruit">
+                                <mat-icon>cancel</mat-icon>
+                            </button>
+                        </mat-chip-row>
+                    </mat-chip-grid>
+                    <input placeholder="New Fruit..." #fruitInput [formControl]="fruitCtrl" [matChipInputFor]="chipGrid"
+                        [matAutocomplete]="auto" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                        (matChipInputTokenEnd)="add($event)" />
+                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                        <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
+                            <mat-option [disabled]="fruits.includes(fruit)" [value]="fruit">
+                                {{fruit}}
+                            </mat-option>
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </form>
+
+
 
             <mat-form-field class="example-full-width">
                 <mat-label>Message</mat-label>
-                <textarea matInput placeholder="Ex. It makes me feel..."></textarea>
+                <textarea matInput placeholder="Ex. It makes me feel..." name="postMessage" [formControl]="postMessage"
+                    [(ngModel)]="NewPostService.postMessage" required></textarea>
             </mat-form-field>
         </form>
         <div style="display: flex; justify-content: center;" class="example-button-row">
-            <button mat-raised-button color="primary">Primary</button>
+            <button (click)="addA()" mat-raised-button color="primary">Primary</button>
         </div>
     </div>
 </div>

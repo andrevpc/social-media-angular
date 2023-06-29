@@ -1,6 +1,6 @@
-import {Component} from '@angular/core';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { Component, OnInit } from '@angular/core';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import {
   FormsModule,
   FormControl,
@@ -10,9 +10,9 @@ import {
   ReactiveFormsModule
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import {ErrorStateMatcher} from '@angular/material/core';
-import {NgIf} from '@angular/common';
-import {MatSelectModule} from '@angular/material/select';
+import { ErrorStateMatcher } from '@angular/material/core';
+import { NgIf } from '@angular/common';
+import { MatSelectModule } from '@angular/material/select';
 import { NewForumService } from '../services/forum/new-forum.service';
 import { INewForum } from '../Interfaces/INewForum';
 
@@ -32,32 +32,21 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
     MatSelectModule, ReactiveFormsModule, NgIf],
 })
 export class NewForumComponent {
-  selected = new FormControl('valid', [Validators.required, Validators.pattern('valid')]);
+  constructor(private service: NewForumService) { }
 
-  selectFormControl = new FormControl('valid', [Validators.required, Validators.pattern('valid')]);
+  NewForumService: INewForum =
+    {
+      title: "",
+      forumDescription: "",
+      ownerIdjwt: ""
+    }
 
-  nativeSelectFormControl = new FormControl('valid', [
-    Validators.required,
-    Validators.pattern('valid'),
-  ]);
-
-  matcher = new MyErrorStateMatcher();
-
-  constructor(private service : NewForumService) { }
-
-  NewForumService : INewForum =
-  {
-    title : "",
-    forumDescription: "",
-    ownerIdjwt: ""
-  }
-
-  add(){
+  add() {
     console.log(this.NewForumService)
     console.log(sessionStorage.getItem("Id"))
     this.NewForumService.ownerIdjwt = sessionStorage.getItem("Id") ?? ""
     this.service.add(this.NewForumService)
-    .subscribe(res => {
+      .subscribe(res => {
         console.log(res)
       })
   }

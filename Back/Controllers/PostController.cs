@@ -51,20 +51,21 @@ public class PostController : ControllerBase
     }
 
     [HttpPost("update")]
-    public async Task<ActionResult<ForumUpdateData>> update(
-        [FromBody] ForumUpdateData data,
-        [FromServices] IForumRepository repo)
+    public async Task<ActionResult<PostUpdateData>> update(
+        [FromBody] PostUpdateData data,
+        [FromServices] IPostRepository repo)
     {
 
-        Forum forum = await repo.FindById(data.Id);
-        if (forum is null)
+        Post post = await repo.FindById(data.Id);
+        if (post is null)
         {
             return BadRequest();
         }
-        forum.Title = data.Title;
-        forum.ForumDescription = data.ForumDescription;
+        
+        post.Title = data.Title;
+        post.PostMessage = data.PostMessage;
 
-        await repo.Update(forum);
+        await repo.Update(post);
         return Ok();
     }
 }
