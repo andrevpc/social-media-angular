@@ -7,7 +7,8 @@ import {
   FormGroupDirective,
   NgForm,
   Validators,
-  ReactiveFormsModule
+  ReactiveFormsModule,
+  UntypedFormArray
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { ErrorStateMatcher } from '@angular/material/core';
@@ -23,6 +24,7 @@ import {map, startWith} from 'rxjs/operators';
 import {MatIconModule} from '@angular/material/icon';
 import {NgFor, AsyncPipe} from '@angular/common';
 import {LiveAnnouncer} from '@angular/cdk/a11y';
+import { type } from 'jquery';
 
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -42,12 +44,12 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
     NgFor, MatIconModule, MatAutocompleteModule, AsyncPipe
   ],
 })
-export class NewPostComponent implements OnInit {
+export class NewPostComponent {
   separatorKeysCodes: number[] = [ENTER, COMMA];
   fruitCtrl = new FormControl('');
-  filteredFruits: Observable<string[]>;
+  filteredFruits: Observable<string[]> | null = null;
   fruits: string[] = [];
-  allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
+  allFruits: string[] = [];
 
   @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement> = {} as ElementRef;;
 
@@ -55,7 +57,6 @@ export class NewPostComponent implements OnInit {
 
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
-
     // Add our fruit
     if (value) {
       this.fruits.push(value);
@@ -65,6 +66,7 @@ export class NewPostComponent implements OnInit {
     event.chipInput!.clear();
 
     this.fruitCtrl.setValue(null);
+    
   }
 
   remove(fruit: string): void {
@@ -88,55 +90,49 @@ export class NewPostComponent implements OnInit {
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
+    console.log(this.fruits)
 
     return this.allFruits.filter(fruit => fruit.toLowerCase().includes(filterValue));
   }
 
   constructor(private service: NewPostService) {
-    this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
-      startWith(null),
-      map((fruit: string | null) => (fruit ? this._filter(fruit) : this.allFruits.slice())),
-    );
+
+
+    this.userCanPost()
    }
 
   NewPostService: INewPost =
     {
       title: "",
-      forumId: 0,
+      forumId: [],
       postMessage: "",
       ownerIdjwt: ""
     }
 
   addA() {
-    console.log(this.NewPostService)
-    console.log(sessionStorage.getItem("Id"))
-    this.NewPostService.ownerIdjwt = sessionStorage.getItem("Id") ?? ""
+    this.NewPostService.ownerIdjwt = sessionStorage.getItem("jwt") ?? ""
     this.service.add(this.NewPostService)
       .subscribe(res => {
-        console.log(res)
       })
   }
 
-  ownerIdjwt = sessionStorage.getItem("Id")
   title = new FormControl('', []);
   // forumIdstr = new FormControl('', []);
   // forumId = +this.forumIdstr
-  forumId = 2
   postMessage = new FormControl('', []);
 
-  ngOnInit(): void {
-    console.log("teste")
-    this.userCanPost()
-  }
 
   userCanPost = () => {
-    this.service.userCanPost().subscribe({
-      next(value) {
-        console.log(value)
-      },
-      error(err) {
-
-      }
+    this.service.userCanPost()
+      .subscribe(res => {
+        res.forEach((value) =>{
+        if(value.title && value.title.trim())
+          this.allFruits.push(value.title)
+        })
+        this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
+          startWith(null),
+          map((fruit: string | null) => (fruit ? this._filter(fruit) : this.allFruits.slice())),
+        )
     })
   }
 }

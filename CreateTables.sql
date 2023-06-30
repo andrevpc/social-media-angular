@@ -103,7 +103,29 @@ BEGIN
 		SET Posts.Likes = Posts.Likes -1
 		WHERE Posts.ID = @PostID
 END
+
+GO
+
+CREATE TRIGGER RemoveLikeTrigger
+	ON Likes
+	AFTER REMOVE
+AS
+BEGIN
+	DECLARE
+	@PostID INT, @IsLike BIT
+	SELECT @IsLike = IsLike, @PostID = PostsID FROM DELETED
+
+	IF @IsLike = 1
+		UPDATE Posts
+		SET Posts.Likes = Posts.Likes - 1 
+		WHERE Posts.ID = @PostID
+	ELSE 
+		UPDATE Posts 
+		SET Posts.Likes = Posts.Likes + 1
+		WHERE Posts.ID = @PostID
+END
 GO
 
 select * from Users
 select * from Forums
+select * from Posts

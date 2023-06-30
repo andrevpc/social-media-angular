@@ -21,17 +21,24 @@ public class PostController : ControllerBase
             [FromServices] IPostRepository repo,
             [FromServices] JwtService jwt)
     {
-        PostCreateData result = new PostCreateData();
+        Post post = await repo.FindByName(data.Id);
+        if (post is null)
+        {
+            return BadRequest();
+        }
 
-        Post newPost = new Post();
-        newPost.Title = data.Title;
-        newPost.ForumId = data.ForumId;
-        newPost.PostMessage = data.PostMessage;
-        newPost.OwnerId = jwt.Validate<UserData>(data.OwnerIdjwt).UserID;
-        newPost.Likes = 0;
+        foreach (var item in data.ForunsTitle)
+        {
+            Post newPost = new Post();
+            newPost.Title = data.Title;
+            newPost.ForumId = 
+            newPost.PostMessage = data.PostMessage;
+            newPost.OwnerId = jwt.Validate<UserData>(data.OwnerIdjwt).UserID;
+            newPost.Likes = 0;
+        }
 
         await repo.Create(newPost);
-        return Ok(result);
+        return Ok();
     }
 
     [HttpPost("delete")]

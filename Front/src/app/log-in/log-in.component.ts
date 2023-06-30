@@ -48,7 +48,7 @@ export class LogInComponent {
         if(res.success)
         {
           this.router.navigate(['/main-page-component']);
-          sessionStorage.setItem("Id", res.jwt)
+          sessionStorage.setItem("jwt", res.jwt)
         }
       })
   }

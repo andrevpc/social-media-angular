@@ -1,7 +1,7 @@
 export interface INewPost
 {
     title: string
-    forumId: number
+    ForunsTitle: string[]
     postMessage: string
     ownerIdjwt: string
 }

@@ -42,16 +42,12 @@ export class NewForumComponent {
     }
 
   add() {
-    console.log(this.NewForumService)
-    console.log(sessionStorage.getItem("Id"))
-    this.NewForumService.ownerIdjwt = sessionStorage.getItem("Id") ?? ""
+    this.NewForumService.ownerIdjwt = sessionStorage.getItem("jwt") ?? ""
     this.service.add(this.NewForumService)
       .subscribe(res => {
-        console.log(res)
       })
   }
 
-  ownerIdjwt = sessionStorage.getItem("Id")
   title = new FormControl('', []);
   forumDescription = new FormControl('', []);
 

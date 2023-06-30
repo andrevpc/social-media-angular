@@ -37,6 +37,19 @@ public class PostRepository : IPostRepository
         return thePost;
     }
 
+    public async Task<Post> FindByName(string title)
+    {
+        var query =
+            from post in context.Posts
+            where post.Title == title
+            select post;
+        
+        var postList = await query.ToListAsync();
+        var thePost = postList.FirstOrDefault();
+        
+        return thePost;
+    }
+
     public async Task<List<Post>> OrderByLikes(int indexPage)
     {
 
