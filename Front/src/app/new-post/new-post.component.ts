@@ -24,7 +24,6 @@ import { map, startWith } from 'rxjs/operators';
 import { MatIconModule } from '@angular/material/icon';
 import { NgFor, AsyncPipe } from '@angular/common';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { type } from 'jquery';
 import { Router } from '@angular/router';
 
 
@@ -96,8 +95,6 @@ export class NewPostComponent {
   }
 
   constructor(private service: NewPostService, private router: Router) {
-
-
     this.userCanPost()
   }
 

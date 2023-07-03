@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { INewPost } from 'src/app/Interfaces/INewPost';
-import { IForumResult } from '../../Interfaces/IForumResult'
+import { IForumResult } from '../../Interfaces/IForumResult';
 
 @Injectable({
   providedIn: 'root'

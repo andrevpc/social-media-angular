@@ -11,7 +11,7 @@
 
 <div id="posts">
     <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
-        <div *cdkVirtualFor="let item of items" class="example-item">{{item}}</div>
+        <div *cdkVirtualFor="let item of items" class="example-item">{{item.title}}</div>
     </cdk-virtual-scroll-viewport>
 </div>
 

@@ -15,6 +15,9 @@ import {map, startWith} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import { ModalComponent } from '../modal/modal.component';
 import { ModalModule } from '../modal/modal.module';
+import { HomePageService } from '../services/homePage/home-page.service';
+import { IPostResult } from '../Interfaces/IPostResult';
+import { Router } from '@angular/router';
 
 export interface Task {
   name: string;
@@ -36,7 +39,13 @@ export interface Task {
 })
 export class MainPageComponent {
 
-  items = Array.from({length: 100000}).map((_, i) => `Item #${i}`);
+  constructor(private service: HomePageService, private router: Router) {
+    this.getAll()
+  }
+
+  allItems: IPostResult[] = [];
+  items: IPostResult[] = [];
+  // items = Array.from({length: 100000}).map((_, i) => `Item #${i}`);
 
   myControl = new FormControl('');
   options: string[] = ['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten'];
@@ -84,5 +93,16 @@ export class MainPageComponent {
       return;
     }
     this.task.subtasks.forEach(t => (t.completed = completed));
+  }
+  getAll = () => {
+    this.service.allPosts()
+      .subscribe(res => {
+        res.forEach((value) => {
+          this.allItems.push(value)
+          console.log(value.title)
+        })
+        this.items = this.allItems
+        console.log(this.allItems)
+      })
   }
 }
