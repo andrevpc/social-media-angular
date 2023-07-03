@@ -19,25 +19,21 @@ public class PostController : ControllerBase
     public async Task<ActionResult<PostCreateData>> create(
             [FromBody] PostCreateData data,
             [FromServices] IPostRepository repo,
+            [FromServices] IForumRepository forumRepo,
             [FromServices] JwtService jwt)
     {
-        Post post = await repo.FindByName(data.Id);
-        if (post is null)
-        {
-            return BadRequest();
-        }
-
         foreach (var item in data.ForunsTitle)
         {
             Post newPost = new Post();
             newPost.Title = data.Title;
-            newPost.ForumId = 
             newPost.PostMessage = data.PostMessage;
             newPost.OwnerId = jwt.Validate<UserData>(data.OwnerIdjwt).UserID;
             newPost.Likes = 0;
+            var forum = await forumRepo.FindByTitle(item);
+            newPost.ForumId = forum.Id;
+            await repo.Create(newPost);
         }
 
-        await repo.Create(newPost);
         return Ok();
     }
 
@@ -75,4 +71,9 @@ public class PostController : ControllerBase
         await repo.Update(post);
         return Ok();
     }
+
+    [HttpGet("allPosts")]
+    public async Task<ActionResult> allPosts(
+        [FromServices] IPostRepository repo)
+        => Ok(await repo.SelectAll());
 }

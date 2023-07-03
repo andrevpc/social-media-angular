@@ -13,4 +13,5 @@ public interface IPostRepository
     Task<List<Post>> OrderByLikes(int indexPage);
     Task<Post> FindById(int id);
     Task<Post> FindByName(string title);
+    Task<List<Post>> SelectAll();
 }

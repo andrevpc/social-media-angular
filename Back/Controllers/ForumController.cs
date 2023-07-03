@@ -9,6 +9,7 @@ using Services;
 using Data;
 using Back.Model;
 using Microsoft.AspNetCore.Cors;
+using System;
 
 [ApiController]
 [Route("forum")]
@@ -26,8 +27,11 @@ public class ForumController : ControllerBase
         Forum newForum = new Forum();
         newForum.Title = data.Title;
         newForum.ForumDescription = data.ForumDescription;
+        newForum.Created = DateTime.Now;
         newForum.OwnerId = jwt.Validate<UserData>(data.OwnerIdjwt).UserID;
-
+        System.Console.WriteLine(newForum.Title);
+        System.Console.WriteLine(newForum.ForumDescription);
+        System.Console.WriteLine(newForum.OwnerId);
         await repo.Create(newForum);
         return Ok(result);
     }

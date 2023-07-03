@@ -16,15 +16,16 @@ import { NgIf } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { NewPostService } from '../services/post/new-post.service';
 import { INewPost } from '../Interfaces/INewPost';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {MatAutocompleteSelectedEvent, MatAutocompleteModule} from '@angular/material/autocomplete';
-import {MatChipInputEvent, MatChipsModule} from '@angular/material/chips';
-import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
-import {MatIconModule} from '@angular/material/icon';
-import {NgFor, AsyncPipe} from '@angular/common';
-import {LiveAnnouncer} from '@angular/cdk/a11y';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { MatAutocompleteSelectedEvent, MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { MatIconModule } from '@angular/material/icon';
+import { NgFor, AsyncPipe } from '@angular/common';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { type } from 'jquery';
+import { Router } from '@angular/router';
 
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -66,7 +67,7 @@ export class NewPostComponent {
     event.chipInput!.clear();
 
     this.fruitCtrl.setValue(null);
-    
+
   }
 
   remove(fruit: string): void {
@@ -83,56 +84,56 @@ export class NewPostComponent {
     if (!this.fruits.includes(event.option.viewValue)) {
       this.fruits.push(event.option.viewValue);
     }
-    
+
     this.fruitInput.nativeElement.value = '';
     this.fruitCtrl.setValue(null);
   }
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-    console.log(this.fruits)
 
     return this.allFruits.filter(fruit => fruit.toLowerCase().includes(filterValue));
   }
 
-  constructor(private service: NewPostService) {
+  constructor(private service: NewPostService, private router: Router) {
 
 
     this.userCanPost()
-   }
+  }
 
   NewPostService: INewPost =
     {
       title: "",
-      forumId: [],
+      ForunsTitle: [],
       postMessage: "",
       ownerIdjwt: ""
     }
 
   addA() {
     this.NewPostService.ownerIdjwt = sessionStorage.getItem("jwt") ?? ""
+    this.NewPostService.ForunsTitle = this.fruits
+    console.log(this.NewPostService)
     this.service.add(this.NewPostService)
       .subscribe(res => {
+        this.router.navigate(['/main-page-component']);
       })
   }
 
   title = new FormControl('', []);
-  // forumIdstr = new FormControl('', []);
-  // forumId = +this.forumIdstr
   postMessage = new FormControl('', []);
 
 
   userCanPost = () => {
     this.service.userCanPost()
       .subscribe(res => {
-        res.forEach((value) =>{
-        if(value.title && value.title.trim())
-          this.allFruits.push(value.title)
+        res.forEach((value) => {
+          if (value.title && value.title.trim())
+            this.allFruits.push(value.title)
         })
         this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
           startWith(null),
           map((fruit: string | null) => (fruit ? this._filter(fruit) : this.allFruits.slice())),
         )
-    })
+      })
   }
 }

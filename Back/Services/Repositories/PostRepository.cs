@@ -64,6 +64,16 @@ public class PostRepository : IPostRepository
                     .ToListAsync();
     }
 
+    public async Task<List<Post>> SelectAll()
+    {
+        var query = 
+            from post in context.Posts
+            orderby post.Likes descending
+            select post;
+        
+        return await query.ToListAsync();
+    }
+
     public async Task Update(Post post)
     {
         context.Update(post);
