@@ -14,4 +14,5 @@ public interface IPostRepository
     Task<Post> FindById(int id);
     Task<Post> FindByName(string title);
     Task<List<Post>> SelectAll();
+    Task<List<Post>> FilterByForum(string[] forums);
 }

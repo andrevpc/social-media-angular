@@ -66,54 +66,55 @@ export class NewPostComponent {
     event.chipInput!.clear();
 
     this.fruitCtrl.setValue(null);
-
+    
+    
   }
-
+  
   remove(fruit: string): void {
     const index = this.fruits.indexOf(fruit);
-
+    
     if (index >= 0) {
       this.fruits.splice(index, 1);
-
+      
       this.announcer.announce(`Removed ${fruit}`);
     }
   }
-
+  
   selected(event: MatAutocompleteSelectedEvent): void {
     if (!this.fruits.includes(event.option.viewValue)) {
       this.fruits.push(event.option.viewValue);
     }
-
+    
     this.fruitInput.nativeElement.value = '';
     this.fruitCtrl.setValue(null);
   }
-
+  
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-
+    
     return this.allFruits.filter(fruit => fruit.toLowerCase().includes(filterValue));
   }
-
+  
   constructor(private service: NewPostService, private router: Router) {
     this.userCanPost()
   }
-
+  
   NewPostService: INewPost =
-    {
-      title: "",
-      ForunsTitle: [],
-      postMessage: "",
-      ownerIdjwt: ""
-    }
-
+  {
+    title: "",
+    ForunsTitle: [],
+    postMessage: "",
+    ownerIdjwt: ""
+  }
+  
   addA() {
     this.NewPostService.ownerIdjwt = sessionStorage.getItem("jwt") ?? ""
     this.NewPostService.ForunsTitle = this.fruits
     console.log(this.NewPostService)
     this.service.add(this.NewPostService)
-      .subscribe(res => {
-        this.router.navigate(['/main-page-component']);
-      })
+    .subscribe(res => {
+      this.router.navigate(['/main-page-component']);
+    })
   }
 
   title = new FormControl('', []);
@@ -130,7 +131,7 @@ export class NewPostComponent {
         this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
           startWith(null),
           map((fruit: string | null) => (fruit ? this._filter(fruit) : this.allFruits.slice())),
-        )
+          )
       })
   }
 }

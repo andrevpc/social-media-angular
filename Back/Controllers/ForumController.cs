@@ -29,9 +29,7 @@ public class ForumController : ControllerBase
         newForum.ForumDescription = data.ForumDescription;
         newForum.Created = DateTime.Now;
         newForum.OwnerId = jwt.Validate<UserData>(data.OwnerIdjwt).UserID;
-        System.Console.WriteLine(newForum.Title);
-        System.Console.WriteLine(newForum.ForumDescription);
-        System.Console.WriteLine(newForum.OwnerId);
+        System.Console.WriteLine(newForum);
         await repo.Create(newForum);
         return Ok(result);
     }
@@ -73,10 +71,19 @@ public class ForumController : ControllerBase
     }
 
     [HttpGet("userCanPost")]
-    public async Task<ActionResult> allforums(
+    public async Task<ActionResult> forumsUserCanPost(
         [FromServices] IForumRepository repo)
     {
         var list = await repo.GetAllForumsThatTheUserCanPost();
+
+        return Ok(list);
+    }
+
+    [HttpGet("allForums")]
+    public async Task<ActionResult> allforums(
+        [FromServices] IForumRepository repo)
+    {
+        var list = await repo.AllForums();
 
         return Ok(list);
     }

@@ -24,6 +24,24 @@ public class PostRepository : IPostRepository
         await context.SaveChangesAsync();
     }
 
+    public async Task<List<Post>> FilterByForum(string[] forums)
+    {
+        List<Post> postList = new();
+        foreach (var forumTitle in forums)
+        {
+            var query =
+                from post in context.Posts
+                where post.Title == forumTitle
+                select post;
+
+             var aux = await query.ToListAsync();
+             postList = postList.Concat(aux).ToList();
+        }
+        
+        System.Console.WriteLine(postList);
+        return postList;
+    }
+
     public async Task<Post> FindById(int id)
     {
         var query =

@@ -76,4 +76,9 @@ public class PostController : ControllerBase
     public async Task<ActionResult> allPosts(
         [FromServices] IPostRepository repo)
         => Ok(await repo.SelectAll());
+
+    [HttpGet("filterByForum")]
+    public async Task<ActionResult> filterByForum(
+        [FromServices] IPostRepository repo)
+        
 }

@@ -18,12 +18,34 @@ import { ModalModule } from '../modal/modal.module';
 import { HomePageService } from '../services/homePage/home-page.service';
 import { IPostResult } from '../Interfaces/IPostResult';
 import { Router } from '@angular/router';
-
+import {  importProvidersFrom, ElementRef, ViewChild, inject } from '@angular/core';
+import {
+  FormGroupDirective,
+  NgForm,
+  Validators,
+  UntypedFormArray
+} from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
+import { NgIf } from '@angular/common';
+import { MatSelectModule } from '@angular/material/select';
+import { NewPostService } from '../services/post/new-post.service';
+import { INewPost } from '../Interfaces/INewPost';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 export interface Task {
   name: string;
   completed: boolean;
   color: ThemePalette;
   subtasks?: Task[];
+}
+
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
 }
 
 @Component({
@@ -35,33 +57,22 @@ export interface Task {
   imports: [MatGridListModule, MatCheckboxModule, NgFor, FormsModule,
     MatFormFieldModule, MatInputModule, ReactiveFormsModule,
     MatAutocompleteModule, AsyncPipe, ScrollingModule,
-    MatButtonModule, MatDividerModule, MatIconModule, ModalModule],
+    MatButtonModule, MatDividerModule, MatIconModule, ModalModule,
+    MatSelectModule, NgIf, MatChipsModule
+  ],
 })
 export class MainPageComponent {
-
+  // PUBS
   constructor(private service: HomePageService, private router: Router) {
     this.getAll()
+    this.getAllForums()
   }
 
   allItems: IPostResult[] = [];
   items: IPostResult[] = [];
-  // items = Array.from({length: 100000}).map((_, i) => `Item #${i}`);
-
   myControl = new FormControl('');
-  options: string[] = ['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten'];
+  options: string[] = [];
   filteredOptions: Observable<string[]> | undefined;
-
-  ngOnInit() {
-    this.filteredOptions = this.myControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value || '')),
-    );
-  }
-
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return this.options.filter(option => option.toLowerCase().includes(filterValue)).slice(0,5);
-  }
 
   task: Task = {
     name: 'Indeterminate',
@@ -103,6 +114,78 @@ export class MainPageComponent {
         })
         this.items = this.allItems
         console.log(this.allItems)
+      })
+  }
+
+  // FILTERS
+  
+  separatorKeysCodes: number[] = [ENTER, COMMA];
+  fruitCtrl = new FormControl('');
+  filteredFruits: Observable<string[]> | null = null;
+  fruits: string[] = [];
+  allFruits: string[] = [];
+
+  @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement> = {} as ElementRef;;
+
+  announcer = inject(LiveAnnouncer);
+
+  add(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+    // Add our fruit
+    if (value) {
+      this.fruits.push(value);
+    }
+
+    // Clear the input value
+    event.chipInput!.clear();
+
+    this.fruitCtrl.setValue(null);
+  }
+  
+  remove(fruit: string): void {
+    const index = this.fruits.indexOf(fruit);
+    
+    if (index >= 0) {
+      this.fruits.splice(index, 1);
+      
+      this.announcer.announce(`Removed ${fruit}`);
+      console.log(this.fruits)
+    }
+  }
+  
+  selected(event: MatAutocompleteSelectedEvent): void {
+    if (!this.fruits.includes(event.option.viewValue)) {
+      this.fruits.push(event.option.viewValue);
+    }
+    
+    this.fruitInput.nativeElement.value = '';
+    this.fruitCtrl.setValue(null);
+    console.log(this.fruits)
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.allFruits.filter(fruit => fruit.toLowerCase().includes(filterValue));
+  }
+  NewPostService: INewPost =
+  {
+    title: "",
+    ForunsTitle: [],
+    postMessage: "",
+    ownerIdjwt: ""
+  }
+
+  getAllForums = () => {
+    this.service.allForums()
+      .subscribe(res => {
+        res.forEach((value) => {
+          this.allFruits.push(value.title)
+        })
+        this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
+          startWith(null),
+          map((fruit: string | null) => (fruit ? this._filter(fruit) : this.allFruits.slice())),
+        )
       })
   }
 }

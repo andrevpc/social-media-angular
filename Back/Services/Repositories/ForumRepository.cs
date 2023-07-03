@@ -66,4 +66,15 @@ public class ForumRepository : IForumRepository
         
         return forumList;
     }
+
+    public async Task<List<Forum>> AllForums()
+    {
+        var query =
+            from forum in context.Forums
+            select forum;
+        
+        var forumList = await query.ToListAsync();
+        
+        return forumList;
+    }
 }

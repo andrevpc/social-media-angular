@@ -16,4 +16,5 @@ export class NewPostService {
   userCanPost() {
     return this.http.get<IForumResult[]>(`http://localhost:5208/forum/userCanPost`)
   }
+
 }

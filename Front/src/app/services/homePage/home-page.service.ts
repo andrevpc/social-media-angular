@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { IForumResult } from 'src/app/Interfaces/IForumResult';
 import { IPostResult } from 'src/app/Interfaces/IPostResult';
 
 @Injectable({
@@ -10,5 +11,9 @@ export class HomePageService {
 
   allPosts() {
     return this.http.get<IPostResult[]>('http://localhost:5208/post/allPosts')
+  }
+
+  allForums() {
+    return this.http.get<IForumResult[]>('http://localhost:5208/forum/allForums')
   }
 }
