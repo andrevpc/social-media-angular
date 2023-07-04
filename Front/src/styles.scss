@@ -1,0 +1,179 @@
+@use '@angular/material' as mat;
+@include mat.core();
+$jet: (
+  50: #f7f7f7,
+  100: #eeeeee,
+  200: #e3e3e3,
+  300: #d1d1d1,
+  400: #acacac,
+  500: #8b8b8b,
+  600: #646464,
+  700: #515151,
+  800: #333333,
+  900: #131313,
+  contrast: (50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: rgba(black, 0.87),
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: rgba(black, 0.87),
+    A200: rgba(black, 0.87),
+    A400: white,
+    A700: white,
+  )
+);
+$cool-gray: (
+  50: #e8e9ed,
+  100: #c4c7d5,
+  200: #9fa3b8,
+  300: #7c809b,
+  400: #626687,
+  500: #474c7d,
+  600: #414575,
+  700: #393b6a,
+  800: #313260,
+  900: #23224e,
+  contrast: (50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: rgba(black, 0.87),
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: rgba(black, 0.87),
+    A200: rgba(black, 0.87),
+    A400: rgba(black, 0.87),
+    A700: white,
+  )
+);
+$snow: (
+  50: #fffbfc,
+  100: #faf6f7,
+  200: #f5f1f2,
+  300: #eeeaeb,
+  400: #ccc9ca,
+  500: #afabac,
+  600: #848182,
+  700: #706c6d,
+  800: #504d4d,
+  900: #2e2b2b,
+  contrast: (50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+  )
+);
+$carmine: (
+  50: #fae8eb,
+  100: #f4c5ca,
+  200: #dc8e8e,
+  300: #cb6364,
+  400: #d14141,
+  500: #d12c26,
+  600: #c32226,
+  700: #b21720,
+  800: #a50f1a,
+  900: #96000f,
+  contrast: (50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+  )
+);
+$gold: (
+  50: #e5e0cd,
+  100: #c0b283,
+  200: #958032,
+  300: #6d5400,
+  400: #593900,
+  500: #4a1e00,
+  600: #4b1600,
+  700: #4b0800,
+  800: #470000,
+  900: #450000,
+  contrast: (50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+  )
+);
+
+// $bluesky-bg: mat.define-palette($snow, 200);
+// $bluesky-primary: mat.define-palette($jet, 800);
+// $bluesky-accent: mat.define-palette($cool-gray, 300);
+// $bluesky-warn: mat.define-palette($carmine, 900);
+
+$bluesky-primary: mat.define-palette($gold, 100);
+$bluesky-accent: mat.define-palette($jet, 800);
+$bluesky-warn: mat.define-palette($carmine, 900);
+$bluesky-theme: mat.define-light-theme((color: (primary: $bluesky-primary,
+        accent: $bluesky-accent,
+        warn: $bluesky-warn,
+      )));
+@include mat.all-component-themes($bluesky-theme);
+
+:root {
+  --bg: #f5f1f2;
+  --auxBg: #eeeaeb;
+  --gold: #c0b283;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  color:  #333333;
+}
+
+/* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: var(--bg)
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

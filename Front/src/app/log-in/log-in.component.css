@@ -1,7 +1,7 @@
 #sign {
     width: 28vw;
     height: fit-content;
-    background: rgb(60, 60, 60);
+    background: var(--auxBg);
     position: absolute;
     top: 0;
     bottom: 0;
@@ -10,6 +10,11 @@
     margin:auto;
     display: flex;
     justify-content: center;
+}
+
+h1 {
+  font-weight: bold;
+  font-size: 4vh;
 }
 
 #centre {
