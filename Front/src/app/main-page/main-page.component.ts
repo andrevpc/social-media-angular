@@ -1,5 +1,5 @@
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy, AfterContentInit, ChangeDetectorRef } from '@angular/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -61,15 +61,23 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
     MatSelectModule, NgIf, MatChipsModule
   ],
 })
-export class MainPageComponent {
+export class MainPageComponent implements OnInit, AfterContentInit {
   // PUBS
-  constructor(private service: HomePageService, private router: Router) {
-    this.getAll()
+  constructor(private service: HomePageService, private router: Router,
+    private changeDetection: ChangeDetectorRef) { }
+
+  ngAfterContentInit(): void
+  {
     this.getAllForums()
+    this.getAll()
   }
 
-  allItems: IPostResult[] = [];
-  items: IPostResult[] = [];
+  ngOnInit(): void
+  {
+  }
+
+  items: IPostResult[] | null = null;
+
   myControl = new FormControl('');
   options: string[] = [];
   filteredOptions: Observable<string[]> | undefined;
@@ -108,12 +116,12 @@ export class MainPageComponent {
   getAll = () => {
     this.service.allPosts()
       .subscribe(res => {
+        let allItems: IPostResult[] = []
         res.forEach((value) => {
-          this.allItems.push(value)
-          console.log(value.title)
+          allItems.push(value)
         })
-        this.items = this.allItems
-        console.log(this.allItems)
+        this.items = allItems;
+        this.changeDetection.detectChanges();
       })
   }
 
@@ -149,7 +157,7 @@ export class MainPageComponent {
       this.fruits.splice(index, 1);
       
       this.announcer.announce(`Removed ${fruit}`);
-      console.log(this.fruits)
+      this.filterByForum()
     }
   }
   
@@ -160,7 +168,7 @@ export class MainPageComponent {
     
     this.fruitInput.nativeElement.value = '';
     this.fruitCtrl.setValue(null);
-    console.log(this.fruits)
+    this.filterByForum()
   }
 
   private _filter(value: string): string[] {
@@ -187,5 +195,18 @@ export class MainPageComponent {
           map((fruit: string | null) => (fruit ? this._filter(fruit) : this.allFruits.slice())),
         )
       })
+  }
+
+  filterByForum = () => {
+    if(this.fruits.length === 0)
+    {
+      this.getAll()
+      return
+    }
+    this.service.filterByForum(this.fruits)
+      .subscribe(res => {
+        this.items = res
+      })
+    this.changeDetection.detectChanges();
   }
 }

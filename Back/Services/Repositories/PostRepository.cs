@@ -31,14 +31,13 @@ public class PostRepository : IPostRepository
         {
             var query =
                 from post in context.Posts
-                where post.Title == forumTitle
+                where post.Forum.Title == forumTitle
                 select post;
 
-             var aux = await query.ToListAsync();
-             postList = postList.Concat(aux).ToList();
+            postList = postList.Concat(await query.ToListAsync()).ToList();
         }
-        
-        System.Console.WriteLine(postList);
+        foreach (var post in postList)
+            System.Console.WriteLine(postList);
         return postList;
     }
 

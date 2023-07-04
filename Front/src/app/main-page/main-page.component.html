@@ -10,9 +10,11 @@
 </nav>
 
 <div id="posts">
-    <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
-        <div *cdkVirtualFor="let item of items" class="example-item">{{item.title}}</div>
-    </cdk-virtual-scroll-viewport>
+    <div *ngIf="items">
+        <div *ngFor="let item of items" class="example-item">
+            {{item.title}}
+        </div>
+    </div>
 </div>
 
 <div id="filters">

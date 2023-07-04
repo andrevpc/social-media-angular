@@ -16,4 +16,8 @@ export class HomePageService {
   allForums() {
     return this.http.get<IForumResult[]>('http://localhost:5208/forum/allForums')
   }
+
+  filterByForum(strings : string[]) {
+    return this.http.post<IPostResult[]>('http://localhost:5208/post/filterByForum', strings)
+  }
 }
