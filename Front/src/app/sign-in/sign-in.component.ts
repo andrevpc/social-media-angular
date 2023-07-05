@@ -9,6 +9,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {ErrorStateMatcher, MatNativeDateModule} from '@angular/material/core';
 import { SignInUserService } from '../services/user/sign-in-user.service';
 import { ISignUser } from '../Interfaces/ISigninUser';
+import { Router } from '@angular/router';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -39,7 +40,7 @@ export class SignInComponent {
     return this.email.hasError('email') ? 'Not a valid email' : '';
   }
 
-  constructor(private service : SignInUserService) { }
+  constructor(private service : SignInUserService, private router: Router) { }
 
   SignInUserService : ISignUser =
   {
@@ -52,7 +53,7 @@ export class SignInComponent {
   add(){
     this.service.add(this.SignInUserService)
       .subscribe(res => {
-        console.log(res)
+          this.router.navigate(['/']);
       })
   }
 

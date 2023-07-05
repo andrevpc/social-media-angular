@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 namespace Back.Services;
 
 using System.Collections.Generic;
+using Back.Data;
 using Model;
 
 public interface IPostRepository
@@ -13,6 +14,8 @@ public interface IPostRepository
     Task<List<Post>> OrderByLikes(int indexPage);
     Task<Post> FindById(int id);
     Task<Post> FindByName(string title);
-    Task<List<Post>> SelectAll();
-    Task<List<Post>> FilterByForum(string[] forums);
+    Task<List<PostResult>> SelectAll();
+    Task<List<PostResult>> FilterByForum(string[] forums);
+    Task<Like> FindLike(FindLikeData like);
+    Task CreateLike (Like like);
 }

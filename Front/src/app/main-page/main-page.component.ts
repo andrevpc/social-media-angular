@@ -61,7 +61,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
     MatSelectModule, NgIf, MatChipsModule
   ],
 })
-export class MainPageComponent implements OnInit, AfterContentInit {
+export class MainPageComponent implements AfterContentInit {
   // PUBS
   constructor(private service: HomePageService, private router: Router,
     private changeDetection: ChangeDetectorRef) { }
@@ -72,8 +72,9 @@ export class MainPageComponent implements OnInit, AfterContentInit {
     this.getAll()
   }
 
-  ngOnInit(): void
+  user()
   {
+    this.router.navigate(['/user-component/']);
   }
 
   items: IPostResult[] | null = null;

@@ -2,11 +2,6 @@
     width: 28vw;
     height: fit-content;
     background: var(--auxBg);
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
     margin:auto;
     display: flex;
     justify-content: center;
@@ -25,5 +20,5 @@ h1 {
 
 mat-form-field {
     width: 25vw;
-    height: 8vh;
+    height: auto;
 }

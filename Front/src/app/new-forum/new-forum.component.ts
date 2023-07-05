@@ -15,6 +15,7 @@ import { NgIf } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { NewForumService } from '../services/forum/new-forum.service';
 import { INewForum } from '../Interfaces/INewForum';
+import { Router } from '@angular/router';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -32,7 +33,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
     MatSelectModule, ReactiveFormsModule, NgIf],
 })
 export class NewForumComponent {
-  constructor(private service: NewForumService) { }
+  constructor(private service: NewForumService, private router: Router) { }
 
   NewForumService: INewForum =
     {
@@ -45,6 +46,7 @@ export class NewForumComponent {
     this.NewForumService.ownerIdjwt = sessionStorage.getItem("jwt") ?? ""
     this.service.add(this.NewForumService)
       .subscribe(res => {
+        this.router.navigate(['/main-page-component']);
       })
   }
 

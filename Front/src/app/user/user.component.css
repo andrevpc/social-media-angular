@@ -1,0 +1,50 @@
+#foruns {
+    position: absolute;
+    background-color: var(--auxBg);
+    height: 92%;
+    width: 33.333%;
+}
+
+#likes {
+    position: absolute;
+    background-color: #ccc9ca;
+    height: 92%;
+    width: 33.333%;
+    margin-left: 33.333%;
+}
+
+#following {
+    position: absolute;
+    background-color: #848182;
+    height: 92%;
+    width: 33.333%;
+    margin-left: 66.666%;
+}
+
+#name {
+    display: flex;
+    justify-content: center;
+    color: var(--gold);
+    font-size: xx-large;
+    margin-top: 10px;
+}
+
+#titles {
+    display: flex;
+    justify-content: center;
+    color: var(--gold);
+}
+
+.example-viewport {
+    height: 85vh;
+    width: 100%;
+}
+
+.example-item {
+    height: auto;
+    margin-bottom: 5%;
+}
+
+::-webkit-scrollbar {
+    display: none
+}

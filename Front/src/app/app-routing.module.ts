@@ -7,6 +7,7 @@ import { LogInComponent } from './log-in/log-in.component';
 import { RouterModule, Routes } from '@angular/router';
 import { MainComponent } from './main/main.component';
 import { NgModule } from '@angular/core';
+import { UserComponent } from './user/user.component';
 
 const routes: Routes = [
   { path: 'main-page-component', component: MainPageComponent },
@@ -14,6 +15,8 @@ const routes: Routes = [
   { path: 'log-in-component', component: LogInComponent },
   { path: 'new-post-component', component: NewPostComponent },
   { path: 'new-forum-component', component: NewForumComponent },
+  { path: 'user-component', component: UserComponent },
+  { path: 'user-component/:id', component: UserComponent },
   { path: '', component: MainComponent },
   { path: '**', component: NotFoundPageComponent }
 ];

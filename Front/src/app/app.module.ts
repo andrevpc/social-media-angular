@@ -14,6 +14,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { ModalModule } from './modal/modal.module';
 import { ModalComponent } from './modal/modal.component';
+import { UserComponent } from './user/user.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { ModalComponent } from './modal/modal.component';
     HttpClientModule,
     SignInComponent,
     LogInComponent,
+    UserComponent,
     BrowserModule,
     CommonModule,
     ModalModule

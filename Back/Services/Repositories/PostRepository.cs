@@ -4,6 +4,7 @@ using System.Linq;
 namespace Back.Services;
 
 using System.Collections.Generic;
+using Back.Data;
 using Back.Model;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,27 +19,42 @@ public class PostRepository : IPostRepository
         await context.SaveChangesAsync();
     }
 
+    public async Task CreateLike(Like like)
+    {
+        await context.AddAsync(like);
+        await context.SaveChangesAsync();
+    }
+
     public async Task Delete(Post post)
     {
         context.Remove(post);
         await context.SaveChangesAsync();
     }
 
-    public async Task<List<Post>> FilterByForum(string[] forums)
+    public async Task<List<PostResult>> FilterByForum(string[] forums)
     {
-        List<Post> postList = new();
+        List<PostResult> postResultList = new();
         foreach (var forumTitle in forums)
         {
             var query =
-                from post in context.Posts
+                from post in context.Posts.Include(p => p.Owner).Include(p => p.Forum)
                 where post.Forum.Title == forumTitle
                 select post;
 
-            postList = postList.Concat(await query.ToListAsync()).ToList();
+            foreach (Post post in query)
+            {
+                PostResult pr = new();
+                pr.Id = post.Id;
+                pr.Title = post.Title;
+                pr.PostMessage = post.PostMessage;
+                pr.OwnerName = post.Owner.Username;
+                pr.ForumTitle = post.Forum.Title;
+                pr.Likes = post.Likes;
+                
+                postResultList.Add(pr);
+            }
         }
-        foreach (var post in postList)
-            System.Console.WriteLine(postList);
-        return postList;
+        return postResultList;
     }
 
     public async Task<Post> FindById(int id)
@@ -67,6 +83,19 @@ public class PostRepository : IPostRepository
         return thePost;
     }
 
+    public async Task<Like> FindLike(FindLikeData like)
+    {
+        var query =
+            from likedb in context.Likes
+            where likedb.OwnerId == like.OwnerId && likedb.PostsId == like.PostsId
+            select likedb;
+        
+        var likeList = await query.ToListAsync();
+        var theLike = likeList.FirstOrDefault();
+        
+        return theLike;
+    }
+
     public async Task<List<Post>> OrderByLikes(int indexPage)
     {
 
@@ -81,14 +110,27 @@ public class PostRepository : IPostRepository
                     .ToListAsync();
     }
 
-    public async Task<List<Post>> SelectAll()
+    public async Task<List<PostResult>> SelectAll()
     {
+        List<PostResult> postResultList = new();
         var query = 
-            from post in context.Posts
+            from post in context.Posts.Include(p => p.Owner).Include(p => p.Forum)
             orderby post.Likes descending
             select post;
-        
-        return await query.ToListAsync();
+
+        foreach (Post post in query)
+        {
+            PostResult pr = new();
+            pr.Id = post.Id;
+            pr.Title = post.Title;
+            pr.PostMessage = post.PostMessage;
+            pr.OwnerName = post.Owner.Username;
+            pr.ForumTitle = post.Forum.Title;
+            pr.Likes = post.Likes;
+            
+            postResultList.Add(pr);
+        }
+        return postResultList;
     }
 
     public async Task Update(Post post)

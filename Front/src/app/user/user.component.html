@@ -1,0 +1,44 @@
+<p id="name">
+    André
+</p>
+<div id="foruns">
+    <h1 id="titles">My Foruns</h1>
+    <cdk-virtual-scroll-viewport style="margin-left: 10px;" itemSize="50" class="example-viewport">
+        <div>
+            <div style="display: flex;align-items:first baseline;">
+                <h2 style="margin: 0 0 0 0;">Forum</h2>
+                <h5 style="margin: 0 0 0 10px;">Made by User</h5>
+            </div>
+            <h5>Description</h5>
+        </div>
+        <div *cdkVirtualFor="let item of items" class="example-item">{{item}}</div>
+    </cdk-virtual-scroll-viewport>
+</div>
+<div id="likes">
+    <h1 id="titles">Likes</h1>
+    <cdk-virtual-scroll-viewport style="margin-left: 10px;" itemSize="50" class="example-viewport">
+        <div style="display: flex;">
+            <div style="margin-top: 18px;">
+                <mat-icon style="color: var(--gold);">keyboard_arrow_up</mat-icon>
+                <div>122</div>
+                <mat-icon>keyboard_arrow_down</mat-icon>
+            </div>
+            <div style="margin-left: 10px;">
+                <div style="display: flex;align-items:first baseline;">
+                    <h4>f/Forum</h4>
+                    <h5 style="margin-left: 10px;">Posted by User</h5>
+                </div>
+                <h1>Title</h1>
+                <h4>PostMessage</h4>
+            </div>
+        </div>
+        <div *cdkVirtualFor="let item of items" class="example-item">{{item}}</div>
+    </cdk-virtual-scroll-viewport>
+</div>
+<div id="following">
+    <h1 id="titles">Following</h1>
+    <cdk-virtual-scroll-viewport style="margin-left: 10px;" itemSize="50" class="example-viewport">
+        <h1>Title</h1>
+        <div *cdkVirtualFor="let item of items" class="example-item">{{item}}</div>
+    </cdk-virtual-scroll-viewport>
+</div>

@@ -74,4 +74,9 @@ public class UserController : ControllerBase
 
         return Ok(result);
     }
+
+    [HttpPost("getId")]
+    public async Task<ActionResult<int>> GetId(
+        [FromServices]JwtService jwt)
+        => Ok(jwt.Validate<UserData>(Request.Form["data"]).UserID);
 }
