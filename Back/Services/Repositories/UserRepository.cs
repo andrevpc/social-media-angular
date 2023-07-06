@@ -18,6 +18,19 @@ public class UserRepository : IUserRepository
         await context.SaveChangesAsync();
     }
 
+    public async Task<User> FindById(int userId)
+    {
+        var query =
+            from user in context.Users
+            where user.Id == userId
+            select user;
+        
+        var userList = await query.ToListAsync();
+        var aUser = userList.FirstOrDefault();
+        
+        return aUser;
+    }
+
     public async Task<User> FindByName(string userName)
     {
         var query =

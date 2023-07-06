@@ -19,6 +19,8 @@ builder.Services.AddScoped<ProjetoAngularContext>();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IForumRepository, ForumRepository>();
 builder.Services.AddTransient<IPostRepository, PostRepository>();
+builder.Services.AddTransient<ILikeRepository, LikeRepository>();
+builder.Services.AddTransient<IImageService, ImageService>();
 
 builder.Services.AddTransient<ISecurityService, SecurityService>();
 

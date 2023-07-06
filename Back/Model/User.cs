@@ -13,7 +13,7 @@ public partial class User
 
     public string UserPassword { get; set; }
 
-    public byte[] ProfilePic { get; set; }
+    public string ProfilePic { get; set; }
 
     public DateTime Age { get; set; }
 

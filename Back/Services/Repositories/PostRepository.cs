@@ -19,12 +19,6 @@ public class PostRepository : IPostRepository
         await context.SaveChangesAsync();
     }
 
-    public async Task CreateLike(Like like)
-    {
-        await context.AddAsync(like);
-        await context.SaveChangesAsync();
-    }
-
     public async Task Delete(Post post)
     {
         context.Remove(post);
@@ -57,6 +51,31 @@ public class PostRepository : IPostRepository
         return postResultList;
     }
 
+    public async Task<List<PostResult>> FilterByLiked(int id)
+    {
+        List<PostResult> postResultList = new();
+        var query =
+            from post in context.Posts.Include(p => p.Owner).Include(p => p.Forum)
+            join like in context.Likes
+            on post.Id equals like.PostsId
+            where like.OwnerId == id
+            select post;
+
+        foreach (Post post in query)
+        {
+            PostResult pr = new();
+            pr.Id = post.Id;
+            pr.Title = post.Title;
+            pr.PostMessage = post.PostMessage;
+            pr.OwnerName = post.Owner.Username;
+            pr.ForumTitle = post.Forum.Title;
+            pr.Likes = post.Likes;
+            
+            postResultList.Add(pr);
+        }
+        return postResultList;
+    }
+
     public async Task<Post> FindById(int id)
     {
         var query =
@@ -81,19 +100,6 @@ public class PostRepository : IPostRepository
         var thePost = postList.FirstOrDefault();
         
         return thePost;
-    }
-
-    public async Task<Like> FindLike(FindLikeData like)
-    {
-        var query =
-            from likedb in context.Likes
-            where likedb.OwnerId == like.OwnerId && likedb.PostsId == like.PostsId
-            select likedb;
-        
-        var likeList = await query.ToListAsync();
-        var theLike = likeList.FirstOrDefault();
-        
-        return theLike;
     }
 
     public async Task<List<Post>> OrderByLikes(int indexPage)

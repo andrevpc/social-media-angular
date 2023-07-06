@@ -10,7 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import { ThemePalette } from '@angular/material/core';
 import {MatIconModule} from '@angular/material/icon';
-import {NgFor, AsyncPipe} from '@angular/common';
+import {NgFor, AsyncPipe, NgClass} from '@angular/common';
 import {map, startWith} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import { ModalComponent } from '../modal/modal.component';
@@ -34,6 +34,10 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { ILikeResult } from '../Interfaces/ILikeResult';
+import { IForumFilter } from '../Interfaces/IForumFilter';
+import { ILikeData } from '../Interfaces/ILikeData';
+
 export interface Task {
   name: string;
   completed: boolean;
@@ -58,7 +62,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
     MatFormFieldModule, MatInputModule, ReactiveFormsModule,
     MatAutocompleteModule, AsyncPipe, ScrollingModule,
     MatButtonModule, MatDividerModule, MatIconModule, ModalModule,
-    MatSelectModule, NgIf, MatChipsModule
+    MatSelectModule, NgIf, MatChipsModule, NgClass
   ],
 })
 export class MainPageComponent implements AfterContentInit {
@@ -77,7 +81,7 @@ export class MainPageComponent implements AfterContentInit {
     this.router.navigate(['/user-component/']);
   }
 
-  items: IPostResult[] | null = null;
+  items: ILikeResult[] | null = null;
 
   myControl = new FormControl('');
   options: string[] = [];
@@ -115,18 +119,38 @@ export class MainPageComponent implements AfterContentInit {
     this.task.subtasks.forEach(t => (t.completed = completed));
   }
   getAll = () => {
-    this.service.allPosts()
+    let jwt = sessionStorage.getItem("jwt")
+    var forms = new FormData()
+    forms.append('data', jwt !== null ? jwt : "")
+    this.service.allPosts(forms)
       .subscribe(res => {
-        let allItems: IPostResult[] = []
-        res.forEach((value) => {
-          allItems.push(value)
-        })
-        this.items = allItems;
+        console.log(res)
+        this.items = res;
         this.changeDetection.detectChanges();
       })
   }
 
   // FILTERS
+
+  filterByForum = () => {
+    if(this.fruits.length === 0)
+    {
+      this.getAll()
+      return
+    }
+    
+    let IForumFilter: IForumFilter =
+    {
+      jwt: sessionStorage.getItem("jwt"),
+      forums: this.fruits
+    }
+    this.service.filterByForum(IForumFilter)
+      .subscribe(res => {
+        console.log(res)
+        this.items = res
+      })
+    this.changeDetection.detectChanges();
+  }
   
   separatorKeysCodes: number[] = [ENTER, COMMA];
   fruitCtrl = new FormControl('');
@@ -198,16 +222,30 @@ export class MainPageComponent implements AfterContentInit {
       })
   }
 
-  filterByForum = () => {
-    if(this.fruits.length === 0)
+  alterColor = (item: ILikeResult, bool : boolean) => {
+    let jwt = sessionStorage.getItem("jwt")
+    let LikeData =
     {
-      this.getAll()
-      return
+      isLike: bool,
+      ownerIdJwt: jwt !== null ? jwt : "",
+      postsId: item.post.id
     }
-    this.service.filterByForum(this.fruits)
-      .subscribe(res => {
-        this.items = res
-      })
-    this.changeDetection.detectChanges();
+
+    if(item.iLiked === bool)
+    {
+      item.iLiked = null;
+      item.post.likes += bool ? -1 : +1
+    }
+    else
+    {
+      item.iLiked = bool
+      item.post.likes += bool ? 1 : -1
+    }
+
+    this.likeDB(LikeData)
+  }
+
+  likeDB = (LikeData: ILikeData) => {
+    this.service.likeDB(LikeData).subscribe()
   }
 }

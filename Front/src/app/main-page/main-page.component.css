@@ -95,3 +95,7 @@ ul {
     bottom: 0;
     margin: 15px;
 }
+
+.voted {
+    color: var(--gold);
+}

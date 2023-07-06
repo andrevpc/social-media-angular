@@ -16,6 +16,5 @@ public interface IPostRepository
     Task<Post> FindByName(string title);
     Task<List<PostResult>> SelectAll();
     Task<List<PostResult>> FilterByForum(string[] forums);
-    Task<Like> FindLike(FindLikeData like);
-    Task CreateLike (Like like);
+    Task<List<PostResult>> FilterByLiked(int userId);
 }

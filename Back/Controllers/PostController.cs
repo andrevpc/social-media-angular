@@ -9,6 +9,7 @@ using Services;
 using Data;
 using Back.Model;
 using Microsoft.AspNetCore.Cors;
+using System.Collections.Generic;
 
 [ApiController]
 [Route("post")]
@@ -72,15 +73,108 @@ public class PostController : ControllerBase
         return Ok();
     }
 
-    [HttpGet("allPosts")]
+    [HttpPost("allPosts")]
     public async Task<ActionResult> allPosts(
-        [FromServices] IPostRepository repo)
-        => Ok(await repo.SelectAll());
+        [FromServices] IPostRepository repo,
+        [FromServices] ILikeRepository likerepo,
+        [FromServices]JwtService jwt)
+    {
+        List<LikeResult> resultList = new();
+        
+        var posts = await repo.SelectAll();
+
+        foreach (var post in posts)
+        {
+            Like like = new();
+            like.PostsId = post.Id;
+            like.OwnerId = jwt.Validate<UserData>(Request.Form["data"]).UserID;
+            var myLike = await likerepo.FindLike(like);
+            
+            LikeResult result = new();
+            result.Post = post;
+
+            if (!(myLike is null))
+            {
+                result.ILiked = myLike.IsLike;
+                resultList.Add(result);
+
+                continue;
+            }
+            result.ILiked = null;
+            resultList.Add(result);
+        }
+
+        return Ok(resultList);
+    }
 
     [HttpPost("filterByForum")]
     public async Task<ActionResult> filterByForum(
         [FromServices] IPostRepository repo,
-        [FromBody] string[] data)
-        => Ok(await repo.FilterByForum(data));
+        [FromBody] ForumFilterData data,
+        [FromServices] ILikeRepository likerepo,
+        [FromServices]JwtService jwt)
+    {
+        List<LikeResult> resultList = new();
         
+        var posts = await repo.FilterByForum(data.Forums);
+
+        foreach (var post in posts)
+        {
+            Like like = new();
+            like.PostsId = post.Id;
+            like.OwnerId = jwt.Validate<UserData>(data.Jwt).UserID;
+            var myLike = await likerepo.FindLike(like);
+            
+            LikeResult result = new();
+            result.Post = post;
+
+            if (!(myLike is null))
+            {
+                result.ILiked = myLike.IsLike;
+                resultList.Add(result);
+
+                continue;
+            }
+            result.ILiked = null;
+            resultList.Add(result);
+        }
+
+        return Ok(resultList);
+    }
+
+    [HttpPost("filterByLiked")]
+    public async Task<ActionResult> filterByLiked(
+        [FromServices] IPostRepository repo,
+        [FromBody] ForumLikedFilterData data,
+        [FromServices] ILikeRepository likerepo,
+        [FromServices]JwtService jwt)
+    {
+        List<LikeResult> resultList = new();
+        
+        var posts = await repo.FilterByLiked(data.IdUserPage);
+
+        foreach (var post in posts)
+        {
+            Like like = new();
+            like.PostsId = post.Id;
+            like.OwnerId = jwt.Validate<UserData>(data.Jwt).UserID;
+            var myLike = await likerepo.FindLike(like);
+            
+            LikeResult result = new();
+            result.Post = post;
+
+            if (!(myLike is null))
+            {
+                result.ILiked = myLike.IsLike;
+                resultList.Add(result);
+
+                continue;
+            }
+            result.ILiked = null;
+            resultList.Add(result);
+        }
+
+        return Ok(resultList);
+    }
+
 }

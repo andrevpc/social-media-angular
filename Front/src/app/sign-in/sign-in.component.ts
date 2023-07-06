@@ -31,6 +31,8 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 export class SignInComponent {
   email = new FormControl('', [Validators.required, Validators.email]);
   hide = true;
+  file: any;
+  form = new FormData;
 
   getErrorMessage() {
     if (this.email.hasError('required')) {
@@ -51,12 +53,28 @@ export class SignInComponent {
   }
 
   add(){
-    this.service.add(this.SignInUserService)
+    this.form.append("email", this.SignInUserService.email)
+    this.form.append("username", this.SignInUserService.username)
+    this.form.append("password", this.SignInUserService.password)
+    let date = this.SignInUserService.age.getTime()
+    this.form.append("age", date.toString())
+
+    this.service.add(this.form)
       .subscribe(res => {
           this.router.navigate(['/']);
       })
+    
+    this.form = new FormData
   }
 
+  updateImg($event: any){
+    if(!$event.target.files)
+      return
+    this.file = $event.target.files[0]
+    var newForm = new FormData
+    newForm.append("Photo", this.file, this.file.name);
+    this.form = newForm
+  }
   
   username = new FormControl('', [Validators.required, Validators.minLength(8)]);
   password = new FormControl('', [Validators.required, Validators.minLength(8)]);

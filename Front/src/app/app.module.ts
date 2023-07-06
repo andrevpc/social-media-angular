@@ -15,12 +15,14 @@ import { CommonModule } from '@angular/common';
 import { ModalModule } from './modal/modal.module';
 import { ModalComponent } from './modal/modal.component';
 import { UserComponent } from './user/user.component';
+import { ForumComponent } from './forum/forum.component';
 
 @NgModule({
   declarations: [
     NotFoundPageComponent,
     MainComponent,
     AppComponent,
+    ForumComponent,
   ],
   imports: [
     BrowserAnimationsModule,

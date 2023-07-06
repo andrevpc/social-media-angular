@@ -1,3 +1,7 @@
+<div id="imgDiv">
+    <img id="img" src="{{ pic }}">
+</div>
+
 <p id="name">
     André
 </p>
@@ -32,7 +36,7 @@
                 <h4>PostMessage</h4>
             </div>
         </div>
-        <div *cdkVirtualFor="let item of items" class="example-item">{{item}}</div>
+        <div *cdkVirtualFor="let item of itemsLiked" class="example-item">{{item}}</div>
     </cdk-virtual-scroll-viewport>
 </div>
 <div id="following">

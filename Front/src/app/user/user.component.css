@@ -1,24 +1,25 @@
 #foruns {
     position: absolute;
     background-color: var(--auxBg);
-    height: 92%;
-    width: 33.333%;
+    height: 60%;
+    width: 33.3%;
+    margin-left: 0.5%;
 }
 
 #likes {
     position: absolute;
     background-color: #ccc9ca;
-    height: 92%;
-    width: 33.333%;
-    margin-left: 33.333%;
+    height: 60%;
+    width: 33.3%;
+    margin-left: 33.3%;
 }
 
 #following {
     position: absolute;
     background-color: #848182;
-    height: 92%;
-    width: 33.333%;
-    margin-left: 66.666%;
+    height: 60%;
+    width: 33.3%;
+    margin-left: 66.2%;
 }
 
 #name {
@@ -36,7 +37,7 @@
 }
 
 .example-viewport {
-    height: 85vh;
+    height: 54.8vh;
     width: 100%;
 }
 
@@ -47,4 +48,18 @@
 
 ::-webkit-scrollbar {
     display: none
+}
+
+#img {
+    height: 33vh;
+    max-width: 100vw;
+    border-radius: 40%;
+}
+
+#imgDiv {
+    height: 35vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

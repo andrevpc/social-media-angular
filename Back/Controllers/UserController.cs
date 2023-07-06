@@ -9,6 +9,7 @@ using Services;
 using Data;
 using Back.Model;
 using Microsoft.AspNetCore.Cors;
+using System.IO;
 
 [ApiController]
 [Route("user")]
@@ -17,11 +18,29 @@ public class UserController : ControllerBase
 {
     [HttpPost("signin")]
     public async Task<ActionResult<SigninResult>> Signin(
-        [FromBody]SigninData data,
         [FromServices]IUserRepository repo,
-        [FromServices]ISecurityService security)
+        [FromServices]ISecurityService security,
+        [FromServices]IImageService img)
     {
+        SigninData data = new SigninData();
+
+        data.Email = Request.Form["email"];
+        data.Username = Request.Form["username"];
+        data.Password = Request.Form["password"];
+        // data.Age = new System.DateTime(int.Parse(Request.Form["age"]));
+        data.Age = System.DateTime.MaxValue;
+
         SigninResult result = new SigninResult();
+
+        try {
+            var file = Request.Form.Files[0];
+            var ms = new MemoryStream();
+            file.CopyTo(ms);
+            data.File = img.GetImageURI(ms.ToArray());
+        }
+        catch {
+            data.File = null;
+        }
 
         var user = await repo.FindByName(data.Username);
         if (!(user is null))
@@ -33,6 +52,7 @@ public class UserController : ControllerBase
         User newUser = new User();
         newUser.Email = data.Email;
         newUser.Username = data.Username;
+        newUser.ProfilePic = data.File;
         newUser.Salt = security.GenerateSalt();
         newUser.UserPassword = security.ApplyHash(data.Password, newUser.Salt);
 
@@ -79,4 +99,12 @@ public class UserController : ControllerBase
     public async Task<ActionResult<int>> GetId(
         [FromServices]JwtService jwt)
         => Ok(jwt.Validate<UserData>(Request.Form["data"]).UserID);
+
+    [HttpPost("getPic")]
+    public async Task<ActionResult<string>> GetPic(
+        [FromServices]IUserRepository repo)
+    {
+        User user = await repo.FindById(int.Parse(Request.Form["userId"]));
+        return Ok(user.ProfilePic);
+    }
 }

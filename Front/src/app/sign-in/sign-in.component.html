@@ -2,6 +2,7 @@
     <div id="centre">
         <h1 style="display: flex;justify-content: center;color: var(--gold);">Create new account </h1>
         <form class="example-form">
+            <input type="file" accept="image/*" (change)="updateImg($event)">
             <div class="example-container">
                 <mat-form-field>
                     <mat-label>Enter an email</mat-label>

@@ -9,7 +9,7 @@ export class SignInUserService {
 
   constructor(private http: HttpClient) { }
   
-  add(ISignUser: ISignUser){
-    return this.http.post("http://localhost:5208/user/signin", ISignUser)
+  add(form: FormData){
+    return this.http.post("http://localhost:5208/user/signin", form)
   }
 }

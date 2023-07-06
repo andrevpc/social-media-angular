@@ -4,7 +4,7 @@ public class LikeData
 {
     public bool IsLike { get; set; }
 
-    public int OwnerId { get; set; }
+    public string OwnerIdjwt { get; set; }
 
     public int PostsId { get; set; }
 }
