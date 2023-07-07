@@ -37,6 +37,8 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { ILikeResult } from '../Interfaces/ILikeResult';
 import { IForumFilter } from '../Interfaces/IForumFilter';
 import { ILikeData } from '../Interfaces/ILikeData';
+import { IPostData } from '../Interfaces/IPostData';
+import { UserPageService } from '../services/user/user-page.service';
 
 export interface Task {
   name: string;
@@ -68,18 +70,23 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 export class MainPageComponent implements AfterContentInit {
   // PUBS
   constructor(private service: HomePageService, private router: Router,
-    private changeDetection: ChangeDetectorRef) { }
+    private changeDetection: ChangeDetectorRef, private userPageService: UserPageService) { }
+  
+  forms = new FormData()
 
   ngAfterContentInit(): void
   {
     this.getAllForums()
     this.getAll()
+    this.id = this.userPageService.getId(sessionStorage.getItem("jwt"))
   }
 
   user()
   {
     this.router.navigate(['/user-component/']);
   }
+
+  id = 0
 
   items: ILikeResult[] | null = null;
 
@@ -247,5 +254,36 @@ export class MainPageComponent implements AfterContentInit {
 
   likeDB = (LikeData: ILikeData) => {
     this.service.likeDB(LikeData).subscribe()
+  }
+
+  goToUser = (id: number) => {
+    this.router.navigate(["user-component/" + id])
+  }
+
+  deletePost = (id: number, item: ILikeResult) => {
+    console.log(id)
+    console.log(item)
+    let postData = {
+      id: id
+    }
+    this.service.deletePost(postData).subscribe(res => {
+      this.items?.splice(this.items?.indexOf(item), 1)
+
+      var element = document.getElementById("postExclude"+id)
+      element?.classList.add("exclude")
+      this.changeDetection.detectChanges();
+    })
+  }
+
+  getId() {
+    
+    let jwt = sessionStorage.getItem("jwt")
+
+    this.forms.append('data', jwt !== null ? jwt : "")
+    this.userPageService.getId(this.forms)
+      .subscribe(res => {
+        this.id = res
+        this.changeDetection.detectChanges();
+      })
   }
 }

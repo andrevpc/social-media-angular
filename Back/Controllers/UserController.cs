@@ -107,4 +107,9 @@ public class UserController : ControllerBase
         User user = await repo.FindById(int.Parse(Request.Form["userId"]));
         return Ok(user.ProfilePic);
     }
+
+    [HttpPost("getName")]
+    public async Task<ActionResult<string>> GetName(
+        [FromServices]IUserRepository repo)
+        => Ok(repo.FindById(int.Parse(Request.Form["id"])).Result.Username);
 }

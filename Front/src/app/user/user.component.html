@@ -1,10 +1,13 @@
+<button id="btn" mat-raised-button color="primary" (click)="createFollowBtn()">{{btnTxt}}</button>
+
 <div id="imgDiv">
     <img id="img" src="{{ pic }}">
 </div>
 
 <p id="name">
-    André
+    {{username}}
 </p>
+
 <div id="foruns">
     <h1 id="titles">My Foruns</h1>
     <cdk-virtual-scroll-viewport style="margin-left: 10px;" itemSize="50" class="example-viewport">
@@ -20,29 +23,35 @@
 </div>
 <div id="likes">
     <h1 id="titles">Likes</h1>
-    <cdk-virtual-scroll-viewport style="margin-left: 10px;" itemSize="50" class="example-viewport">
-        <div style="display: flex;">
-            <div style="margin-top: 18px;">
-                <mat-icon style="color: var(--gold);">keyboard_arrow_up</mat-icon>
-                <div>122</div>
-                <mat-icon>keyboard_arrow_down</mat-icon>
-            </div>
-            <div style="margin-left: 10px;">
-                <div style="display: flex;align-items:first baseline;">
-                    <h4>f/Forum</h4>
-                    <h5 style="margin-left: 10px;">Posted by User</h5>
+    <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
+        <div style="margin-left: 10px;" *cdkVirtualFor="let item of itemsLiked" class="example-item">
+            <div style="display: flex;">
+                <div style="margin-top: 18px;">
+                    <mat-icon [ngClass]="{'voted': item.iLiked === true}"
+                        (click)="alterColor(item, true)">keyboard_arrow_up</mat-icon>
+                    <div style="display: flex;justify-content: center;align-items: center;">{{item.post.likes}}</div>
+                    <mat-icon [ngClass]="{'voted': item.iLiked === false}"
+                        (click)="alterColor(item, false)">keyboard_arrow_down</mat-icon>
                 </div>
-                <h1>Title</h1>
-                <h4>PostMessage</h4>
+                <div style="margin-left: 20px;">
+                    <div style="display: flex;align-items:first baseline;">
+                        <h4>f/{{item.post.forumTitle}}</h4>
+                        <h5 style="margin-left: 10px;">Posted by {{item.post.ownerName}}</h5>
+                    </div>
+                    <h1>{{item.post.title}}</h1>
+                    <h4>{{item.post.postMessage}}</h4>
+                </div>
             </div>
         </div>
-        <div *cdkVirtualFor="let item of itemsLiked" class="example-item">{{item}}</div>
     </cdk-virtual-scroll-viewport>
 </div>
 <div id="following">
     <h1 id="titles">Following</h1>
     <cdk-virtual-scroll-viewport style="margin-left: 10px;" itemSize="50" class="example-viewport">
-        <h1>Title</h1>
-        <div *cdkVirtualFor="let item of items" class="example-item">{{item}}</div>
+        <div style="display: flex;" *cdkVirtualFor="let item of itemsFollowing" class="example-item">
+            <a href="user-component/{{item.idAndUsername.userID}}" style="cursor: pointer;text-decoration: none;color: var(--gold);">
+                <h1>{{item.idAndUsername.username}}</h1>
+            </a>
+        </div>
     </cdk-virtual-scroll-viewport>
 </div>

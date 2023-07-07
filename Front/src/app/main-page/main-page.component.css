@@ -99,3 +99,7 @@ ul {
 .voted {
     color: var(--gold);
 }
+
+.exclude {
+    display: none;
+}

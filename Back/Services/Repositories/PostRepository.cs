@@ -42,6 +42,7 @@ public class PostRepository : IPostRepository
                 pr.Title = post.Title;
                 pr.PostMessage = post.PostMessage;
                 pr.OwnerName = post.Owner.Username;
+                pr.OwnerId = post.OwnerId;
                 pr.ForumTitle = post.Forum.Title;
                 pr.Likes = post.Likes;
                 
@@ -68,6 +69,7 @@ public class PostRepository : IPostRepository
             pr.Title = post.Title;
             pr.PostMessage = post.PostMessage;
             pr.OwnerName = post.Owner.Username;
+            pr.OwnerId = post.OwnerId;
             pr.ForumTitle = post.Forum.Title;
             pr.Likes = post.Likes;
             
@@ -131,6 +133,7 @@ public class PostRepository : IPostRepository
             pr.Title = post.Title;
             pr.PostMessage = post.PostMessage;
             pr.OwnerName = post.Owner.Username;
+            pr.OwnerId = post.OwnerId;
             pr.ForumTitle = post.Forum.Title;
             pr.Likes = post.Likes;
             

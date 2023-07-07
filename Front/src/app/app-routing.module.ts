@@ -9,6 +9,7 @@ import { MainComponent } from './main/main.component';
 import { NgModule } from '@angular/core';
 import { UserComponent } from './user/user.component';
 import { ForumComponent } from './forum/forum.component';
+import { EditPostComponent } from './edit-post/edit-post.component';
 
 const routes: Routes = [
   { path: 'main-page-component', component: MainPageComponent },
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'user-component', component: UserComponent },
   { path: 'user-component/:id', component: UserComponent },
   { path: 'forum-component/:title', component: ForumComponent },
+  { path: 'edit-post-component', component: EditPostComponent },
   { path: '', component: MainComponent },
   { path: '**', component: NotFoundPageComponent }
 ];

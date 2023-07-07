@@ -63,3 +63,15 @@
     justify-content: center;
     align-items: center;
 }
+
+.voted {
+    color: var(--gold);
+}
+
+.btn {
+    display: none;
+}
+
+.btnClicked {
+    
+}

@@ -16,6 +16,7 @@ import { ModalModule } from './modal/modal.module';
 import { ModalComponent } from './modal/modal.component';
 import { UserComponent } from './user/user.component';
 import { ForumComponent } from './forum/forum.component';
+import { EditPostComponent } from './edit-post/edit-post.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { ForumComponent } from './forum/forum.component';
   imports: [
     BrowserAnimationsModule,
     MainPageComponent,
+    EditPostComponent,
     NewForumComponent,
     AppRoutingModule,
     NewPostComponent,

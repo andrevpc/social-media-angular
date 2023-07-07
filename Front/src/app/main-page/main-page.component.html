@@ -7,21 +7,30 @@
 
 <div id="posts">
     <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
-        <div style="margin-left: 10px;" *cdkVirtualFor="let item of items" class="example-item">
+        <div id="postExclude{{item.post.id}}" style="margin-left: 10px;" *cdkVirtualFor="let item of items"
+            class="example-item">
             <div style="display: flex;">
                 <div style="margin-top: 18px;">
-                    <mat-icon [ngClass]="{'voted': item.iLiked === true}" (click)="alterColor(item, true)">keyboard_arrow_up</mat-icon>
+                    <mat-icon [ngClass]="{'voted': item.iLiked === true}"
+                        (click)="alterColor(item, true)">keyboard_arrow_up</mat-icon>
                     <div style="display: flex;justify-content: center;align-items: center;">{{item.post.likes}}</div>
-                    <mat-icon [ngClass]="{'voted': item.iLiked === false}" (click)="alterColor(item, false)">keyboard_arrow_down</mat-icon>
+                    <mat-icon [ngClass]="{'voted': item.iLiked === false}"
+                        (click)="alterColor(item, false)">keyboard_arrow_down</mat-icon>
                 </div>
                 <div style="margin-left: 20px;">
                     <div style="display: flex;align-items:first baseline;">
                         <h4>f/{{item.post.forumTitle}}</h4>
-                        <h5 style="margin-left: 10px;">Posted by {{item.post.ownerName}}</h5>
+                        <h5 style="margin-left: 10px" (click)="goToUser(item.post.ownerId)">Posted by</h5>
+                        <h5 style="margin-left: 0.3em;cursor: pointer;text-decoration: underline"
+                            (click)="goToUser(item.post.ownerId)">
+                            {{item.post.ownerName}}</h5>
                     </div>
                     <h1>{{item.post.title}}</h1>
                     <h4>{{item.post.postMessage}}</h4>
                 </div>
+                <button *ngIf="item.post.ownerId === 1" mat-icon-button color="warn" (click)="deletePost(item.post.id,item)">
+                    <mat-icon>delete</mat-icon>
+                </button>
             </div>
         </div>
     </cdk-virtual-scroll-viewport>

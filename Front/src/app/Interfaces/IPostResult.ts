@@ -4,6 +4,7 @@ export interface IPostResult
     title: string
     postMessage: string
     ownerName: string
+    ownerId: number
     forumTitle: string
     likes: number
 }

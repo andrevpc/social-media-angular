@@ -4,6 +4,7 @@ import { IForumResult } from 'src/app/Interfaces/IForumResult';
 import { ILikeResult } from 'src/app/Interfaces/ILikeResult';
 import { IForumFilter } from 'src/app/Interfaces/IForumFilter';
 import { ILikeData } from 'src/app/Interfaces/ILikeData';
+import { IPostData } from 'src/app/Interfaces/IPostData';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,10 @@ export class HomePageService {
   }
 
   likeDB(LikeData: ILikeData) {
-    console.log(LikeData)
     return this.http.post("http://localhost:5208/like/create", LikeData)
+  }
+
+  deletePost(id: IPostData) {
+    return this.http.post("http://localhost:5208/post/delete", id)
   }
 }
