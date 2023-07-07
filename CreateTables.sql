@@ -15,7 +15,7 @@ CREATE TABLE Users(
 	Email VARCHAR(100) NOT NULL,
 	Username VARCHAR(100) NOT NULL,
 	UserPassword VARCHAR(100) NOT NULL,
-	ProfilePic VARBINARY(MAX),
+	ProfilePic VARCHAR(MAX),
 	Age DATE NOT NULL,
 	Salt VARCHAR(20) NOT NULL --Segurança (Salting (de 6 a 12 caracteres) + SlowHashing)
 )
@@ -28,7 +28,7 @@ CREATE TABLE Follows(
 
 CREATE TABLE Forums(
 	Id INT IDENTITY(1,1) PRIMARY KEY,
-	ForumPhoto VARBINARY(MAX),
+	ForumPhoto VARCHAR(MAX),
 	Title VARCHAR(100) NOT NULL,
 	ForumDescription VARCHAR(100),
 	Created DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -39,7 +39,7 @@ CREATE TABLE Posts(
 	Id INT IDENTITY(1,1) PRIMARY KEY,
 	Title VARCHAR(100),
 	PostMessage VARCHAR(MAX) NOT NULL,
-	Upload VARBINARY(MAX),
+	Upload VARCHAR(MAX),
 	Likes INT,
 	OwnerID INT FOREIGN KEY REFERENCES Users(Id) NOT NULL,
 	ForumID INT FOREIGN KEY REFERENCES Forums(Id) NOT NULL,
@@ -154,3 +154,4 @@ END
 select * from Users
 select * from Forums
 select * from Posts
+select * from Follows
