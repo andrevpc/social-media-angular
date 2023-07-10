@@ -29,7 +29,6 @@ public class UserController : ControllerBase
         data.Username = Request.Form["username"];
         data.Password = Request.Form["password"];
         data.Age = new System.DateTime(Int64.Parse(Request.Form["age"]) * 10000 + 621355968000000000);
-        System.Console.WriteLine(data.Age);
 
         SigninResult result = new SigninResult();
 

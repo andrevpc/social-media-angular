@@ -50,8 +50,6 @@ export class NewPostComponent {
   filteredFruits: Observable<string[]> | null = null;
   fruits: string[] = [];
   allFruits: string[] = [];
-  file: any;
-  form = new FormData;
 
   @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement> = {} as ElementRef;;
 
@@ -135,14 +133,5 @@ export class NewPostComponent {
           map((fruit: string | null) => (fruit ? this._filter(fruit) : this.allFruits.slice())),
           )
       })
-  }
-
-  updateImg($event: any){
-    if(!$event.target.files)
-      return
-    this.file = $event.target.files[0]
-    var newForm = new FormData
-    newForm.append("Photo", this.file, this.file.name);
-    this.form = newForm
   }
 }

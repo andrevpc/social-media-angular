@@ -7,7 +7,7 @@ public partial class Forum
 {
     public int Id { get; set; }
 
-    public byte[] ForumPhoto { get; set; }
+    public string ForumPhoto { get; set; }
 
     public string Title { get; set; }
 

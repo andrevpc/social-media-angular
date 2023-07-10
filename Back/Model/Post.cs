@@ -11,7 +11,7 @@ public partial class Post
 
     public string PostMessage { get; set; }
 
-    public byte[] Upload { get; set; }
+    public string Upload { get; set; }
 
     public int? Likes { get; set; }
 

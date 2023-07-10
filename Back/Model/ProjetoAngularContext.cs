@@ -43,7 +43,7 @@ public partial class ProjetoAngularContext : DbContext
     {
         modelBuilder.Entity<Follow>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Follows__3214EC07D670C7B9");
+            entity.HasKey(e => e.Id).HasName("PK__Follows__3214EC07EE437E19");
 
             entity.Property(e => e.FollowerId).HasColumnName("FollowerID");
             entity.Property(e => e.UserId).HasColumnName("UserID");
@@ -61,7 +61,7 @@ public partial class ProjetoAngularContext : DbContext
 
         modelBuilder.Entity<Forum>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Forums__3214EC0722947382");
+            entity.HasKey(e => e.Id).HasName("PK__Forums__3214EC07E513692F");
 
             entity.ToTable(tb => tb.HasTrigger("OwnerRelation"));
 
@@ -71,6 +71,7 @@ public partial class ProjetoAngularContext : DbContext
             entity.Property(e => e.ForumDescription)
                 .HasMaxLength(100)
                 .IsUnicode(false);
+            entity.Property(e => e.ForumPhoto).IsUnicode(false);
             entity.Property(e => e.OwnerId).HasColumnName("OwnerID");
             entity.Property(e => e.Title)
                 .IsRequired()
@@ -85,7 +86,7 @@ public partial class ProjetoAngularContext : DbContext
 
         modelBuilder.Entity<HasPermission>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__HasPermi__3214EC07B2111D06");
+            entity.HasKey(e => e.Id).HasName("PK__HasPermi__3214EC078667F02A");
 
             entity.ToTable("HasPermission");
 
@@ -105,7 +106,7 @@ public partial class ProjetoAngularContext : DbContext
 
         modelBuilder.Entity<HasPosition>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__HasPosit__3214EC071DB0373D");
+            entity.HasKey(e => e.Id).HasName("PK__HasPosit__3214EC0794B29C54");
 
             entity.ToTable("HasPosition");
 
@@ -125,7 +126,7 @@ public partial class ProjetoAngularContext : DbContext
 
         modelBuilder.Entity<Like>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Likes__3214EC0737214863");
+            entity.HasKey(e => e.Id).HasName("PK__Likes__3214EC070E70C519");
 
             entity.ToTable(tb =>
                 {
@@ -149,7 +150,7 @@ public partial class ProjetoAngularContext : DbContext
 
         modelBuilder.Entity<Permission>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Permissi__3214EC07C83EA352");
+            entity.HasKey(e => e.Id).HasName("PK__Permissi__3214EC07F9B8A54D");
 
             entity.ToTable("Permission");
 
@@ -161,7 +162,7 @@ public partial class ProjetoAngularContext : DbContext
 
         modelBuilder.Entity<Position>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Position__3214EC070780394C");
+            entity.HasKey(e => e.Id).HasName("PK__Position__3214EC07AE2BBC33");
 
             entity.Property(e => e.ForumId).HasColumnName("ForumID");
             entity.Property(e => e.Nome)
@@ -177,7 +178,7 @@ public partial class ProjetoAngularContext : DbContext
 
         modelBuilder.Entity<Post>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Posts__3214EC07CFFA8A71");
+            entity.HasKey(e => e.Id).HasName("PK__Posts__3214EC075DF7FC22");
 
             entity.Property(e => e.Created)
                 .HasDefaultValueSql("(getdate())")
@@ -191,6 +192,7 @@ public partial class ProjetoAngularContext : DbContext
             entity.Property(e => e.Title)
                 .HasMaxLength(100)
                 .IsUnicode(false);
+            entity.Property(e => e.Upload).IsUnicode(false);
 
             entity.HasOne(d => d.Forum).WithMany(p => p.Posts)
                 .HasForeignKey(d => d.ForumId)
@@ -209,7 +211,7 @@ public partial class ProjetoAngularContext : DbContext
 
         modelBuilder.Entity<Token>(entity =>
         {
-            entity.HasKey(e => e.Token1).HasName("PK__Token__1EB4F816CC66CA79");
+            entity.HasKey(e => e.Token1).HasName("PK__Token__1EB4F8168A2849AF");
 
             entity.ToTable("Token");
 
@@ -227,7 +229,7 @@ public partial class ProjetoAngularContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Users__3214EC0718E761D2");
+            entity.HasKey(e => e.Id).HasName("PK__Users__3214EC072BBFA73D");
 
             entity.Property(e => e.Age).HasColumnType("date");
             entity.Property(e => e.Email)

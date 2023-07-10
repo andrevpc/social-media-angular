@@ -126,7 +126,15 @@ BEGIN
 END
 GO
 
-INSERT INTO Permission VALUES ('Todas')
+INSERT INTO Permission VALUES ('All')
+INSERT INTO Permission VALUES ('Post')
+INSERT INTO Permission VALUES ('Vote')
+INSERT INTO Permission VALUES ('RemovePosts')
+INSERT INTO Permission VALUES ('RemoveMembers')
+INSERT INTO Permission VALUES ('EditPosts')
+INSERT INTO Permission VALUES ('ChangePositions')
+INSERT INTO Permission VALUES ('CreatePositions')
+INSERT INTO Permission VALUES ('DeleteForum')
 
 GO
 CREATE TRIGGER OwnerRelation
@@ -147,7 +155,7 @@ BEGIN
 
 	INSERT INTO HasPosition (UsuarioID, PositionID) VALUES (@OwnerID, @PositionID)
 
-	SELECT @PermissionID = ID FROM Permission WHERE Nome = 'Todas'
+	SELECT @PermissionID = ID FROM Permission WHERE Nome = 'All'
 	INSERT INTO HasPermission(PermissionID, PositionID) VALUES (@PermissionID, @PositionID)
 END
 
