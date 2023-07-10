@@ -11,14 +11,17 @@
 <div id="foruns">
     <h1 id="titles">My Foruns</h1>
     <cdk-virtual-scroll-viewport style="margin-left: 10px;" itemSize="50" class="example-viewport">
-        <div>
+        <div *cdkVirtualFor="let item of itemsForums" class="example-item">
             <div style="display: flex;align-items:first baseline;">
-                <h2 style="margin: 0 0 0 0;">Forum</h2>
-                <h5 style="margin: 0 0 0 10px;">Made by User</h5>
+                <h2 style="margin: 0 0 0 0;">{{item.title}}</h2>
+                <h5 style="margin: 0 0 0 10px;">Made by </h5>
+                <h5 style="margin-left: 0.3em;cursor: pointer;text-decoration: underline"
+                    (click)="goToUser(item.ownerId)">
+                    {{item.ownerName}}</h5>
             </div>
-            <h5>Description</h5>
+            <h5>{{item.forumDescription}}</h5>
+
         </div>
-        <div *cdkVirtualFor="let item of items" class="example-item">{{item}}</div>
     </cdk-virtual-scroll-viewport>
 </div>
 <div id="likes">
@@ -36,7 +39,10 @@
                 <div style="margin-left: 20px;">
                     <div style="display: flex;align-items:first baseline;">
                         <h4>f/{{item.post.forumTitle}}</h4>
-                        <h5 style="margin-left: 10px;">Posted by {{item.post.ownerName}}</h5>
+                        <h5 style="margin-left: 10px;">Posted by </h5>
+                        <h5 style="margin-left: 0.3em;cursor: pointer;text-decoration: underline"
+                            (click)="goToUser(item.post.ownerId)">
+                            {{item.post.ownerName}}</h5>
                     </div>
                     <h1>{{item.post.title}}</h1>
                     <h4>{{item.post.postMessage}}</h4>
@@ -49,7 +55,8 @@
     <h1 id="titles">Following</h1>
     <cdk-virtual-scroll-viewport style="margin-left: 10px;" itemSize="50" class="example-viewport">
         <div style="display: flex;" *cdkVirtualFor="let item of itemsFollowing" class="example-item">
-            <a href="user-component/{{item.idAndUsername.userID}}" style="cursor: pointer;text-decoration: none;color: var(--gold);">
+            <a href="user-component/{{item.idAndUsername.userID}}"
+                style="cursor: pointer;text-decoration: none;color: var(--gold);">
                 <h1>{{item.idAndUsername.username}}</h1>
             </a>
         </div>

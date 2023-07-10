@@ -2,5 +2,6 @@ export interface IForumResult{
     id: number,
     title: string,
     forumDescription: string,
-    ownerId: number
+    ownerId: number,
+    ownerName: string
 }

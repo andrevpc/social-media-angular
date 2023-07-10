@@ -72,6 +72,10 @@
     display: none;
 }
 
+#btn {
+    position: absolute;
+}
+
 .btnClicked {
     
 }

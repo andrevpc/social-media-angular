@@ -77,4 +77,16 @@ public class ForumRepository : IForumRepository
         
         return forumList;
     }
+
+    public async Task<List<Forum>> ForumsUserOwns(int id)
+    {
+        var query =
+            from forum in context.Forums.Include(forum => forum.Owner)
+            where forum.OwnerId == id
+            select forum;
+        
+        var forumList = await query.ToListAsync();
+        
+        return forumList;
+    }
 }

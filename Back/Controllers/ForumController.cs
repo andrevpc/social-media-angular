@@ -10,6 +10,7 @@ using Data;
 using Back.Model;
 using Microsoft.AspNetCore.Cors;
 using System;
+using System.Collections.Generic;
 
 [ApiController]
 [Route("forum")]
@@ -86,5 +87,28 @@ public class ForumController : ControllerBase
         var list = await repo.AllForums();
 
         return Ok(list);
+    }
+    [HttpPost("forumsUserOwns")]
+    public async Task<ActionResult<List<ForumResult>>> forumsUserOwns(
+        [FromServices] IForumRepository repo
+    )
+    {
+        var list = await repo.ForumsUserOwns(int.Parse(Request.Form["idStr"]));
+        List<ForumResult> result = new();
+
+        foreach (var forum in list)
+        {
+            ForumResult forumResult = new();
+
+            forumResult.Id = forum.Id;
+            forumResult.Title = forum.Title;
+            forumResult.ForumDescription = forum.ForumDescription;
+            forumResult.OwnerId = forum.OwnerId;
+            forumResult.OwnerName = forum.Owner.Username;
+
+            result.Add(forumResult);
+        }
+
+        return Ok(result);
     }
 }

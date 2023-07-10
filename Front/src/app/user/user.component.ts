@@ -13,6 +13,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { IUsernameData } from '../Interfaces/IUsernameData';
 import { IFollowingResult } from '../Interfaces/IFollowingResult';
+import { IForumResult } from '../Interfaces/IForumResult';
 
 @Component({
   selector: 'app-user',
@@ -37,6 +38,7 @@ export class UserComponent implements AfterContentInit {
   follows: any
   btnTxt = "Follow"
   itemsFollowing: IUsernameData[] | null = null
+  itemsForums: IForumResult[] | null = null
 
   ngOnInit() {
     this.subscription = this.route.params.subscribe((params) => {
@@ -48,6 +50,8 @@ export class UserComponent implements AfterContentInit {
       this.getPic(String(this.userId))
       this.filterByLiked()
       this.getName(String(this.userId))
+      this.forumsUserOwns()
+
 
       let jwt = sessionStorage.getItem("jwt")
 
@@ -92,6 +96,7 @@ export class UserComponent implements AfterContentInit {
         this.getPic(String(res))
         this.filterByLiked()
         this.getName(String(this.id))
+        this.forumsUserOwns()
 
         let FollowData =
         {
@@ -206,11 +211,19 @@ export class UserComponent implements AfterContentInit {
           this.itemsFollowing = res
           this.changeDetection.detectChanges();
         }
-      )
+        )
+      }
+      
+      goToUser = (id: number) => {
+        this.router.navigate(["user-component/" + id])
+      }
+      
+      forumsUserOwns = () => {
+        this.forms.append("idStr", this.userId.toString())
+        this.service.forumsUserOwns(this.forms)
+        .subscribe(res => {
+          this.itemsForums = res
+          this.changeDetection.detectChanges();
+      })
   }
-
-  goToUser = (id: number) => {
-    this.router.navigate(["user-component/" + id])
-  }
-
 }

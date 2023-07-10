@@ -78,7 +78,9 @@ export class MainPageComponent implements AfterContentInit {
   {
     this.getAllForums()
     this.getAll()
-    this.id = this.userPageService.getId(sessionStorage.getItem("jwt"))
+    const form = new FormData;
+    form.append("data", sessionStorage.getItem("jwt") ?? "")
+    this.getId()
   }
 
   user()

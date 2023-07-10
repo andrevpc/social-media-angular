@@ -14,4 +14,5 @@ public interface IForumRepository
     Task<Forum> FindById(int id);
     Task<List<Forum>> GetAllForumsThatTheUserCanPost();
     Task<List<Forum>> AllForums();
+    Task<List<Forum>> ForumsUserOwns(int id);
 }

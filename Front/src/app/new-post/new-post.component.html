@@ -11,7 +11,7 @@
 
             <form>
                 <mat-form-field style="height: auto;" class="example-chip-list">
-                    <mat-label>Favorite Fruits</mat-label>
+                    <mat-label>Choose Forums</mat-label>
                     <mat-chip-grid #chipGrid aria-label="Fruit selection">
                         <mat-chip-row *ngFor="let fruit of fruits" (removed)="remove(fruit)">
                             {{fruit}}
@@ -20,7 +20,7 @@
                             </button>
                         </mat-chip-row>
                     </mat-chip-grid>
-                    <input placeholder="New Fruit..." #fruitInput [formControl]="fruitCtrl" [matChipInputFor]="chipGrid"
+                    <input placeholder="Forum..." #fruitInput [formControl]="fruitCtrl" [matChipInputFor]="chipGrid"
                         [matAutocomplete]="auto" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                         (matChipInputTokenEnd)="add($event)" />
                     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
@@ -42,7 +42,7 @@
             </mat-form-field>
         </form>
         <div style="display: flex; justify-content: center;" class="example-button-row">
-            <button (click)="addA()" mat-raised-button color="primary">Primary</button>
+            <button (click)="addA()" mat-raised-button color="primary">Post!</button>
         </div>
     </div>
 </div>

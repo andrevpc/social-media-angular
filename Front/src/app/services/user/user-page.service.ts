@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IFollowData } from 'src/app/Interfaces/IFollowData';
 import { IForumLikedFilter } from 'src/app/Interfaces/IForumLikedFilter';
+import { IForumResult } from 'src/app/Interfaces/IForumResult';
 import { ILikeResult } from 'src/app/Interfaces/ILikeResult';
 import { IUsernameData } from 'src/app/Interfaces/IUsernameData';
 
@@ -38,5 +39,9 @@ export class UserPageService {
 
   findFollowing(obj: IFollowData) {
     return this.http.post<IUsernameData[]>("http://localhost:5208/follow/findFollowing", obj)
+  }
+
+  forumsUserOwns(string: FormData) {
+    return this.http.post<IForumResult[]>("http://localhost:5208/forum/forumsUserOwns", string)
   }
 }
