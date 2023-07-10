@@ -10,6 +10,7 @@ using Data;
 using Back.Model;
 using Microsoft.AspNetCore.Cors;
 using System.IO;
+using System;
 
 [ApiController]
 [Route("user")]
@@ -27,8 +28,8 @@ public class UserController : ControllerBase
         data.Email = Request.Form["email"];
         data.Username = Request.Form["username"];
         data.Password = Request.Form["password"];
-        // data.Age = new System.DateTime(int.Parse(Request.Form["age"]));
-        data.Age = System.DateTime.MaxValue;
+        data.Age = new System.DateTime(Int64.Parse(Request.Form["age"]) * 10000 + 621355968000000000);
+        System.Console.WriteLine(data.Age);
 
         SigninResult result = new SigninResult();
 

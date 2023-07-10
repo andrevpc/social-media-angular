@@ -1,8 +1,7 @@
 <div id="sign">
     <div id="centre">
         <form class="example-form">
-            <input type="file" style="margin-bottom: 10px;" class="file-upload"
-                onchange="console.log(event.target.files)">
+            <input type="file" accept="image/*" (change)="updateImg($event)">
             <mat-form-field class="example-full-width">
                 <mat-label>Title</mat-label>
                 <input matInput placeholder="Ex. Pizza" name="title" [formControl]="title"

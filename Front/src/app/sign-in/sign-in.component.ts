@@ -57,6 +57,7 @@ export class SignInComponent {
     this.form.append("username", this.SignInUserService.username)
     this.form.append("password", this.SignInUserService.password)
     let date = this.SignInUserService.age.getTime()
+    console.log(date.toString())
     this.form.append("age", date.toString())
 
     this.service.add(this.form)
