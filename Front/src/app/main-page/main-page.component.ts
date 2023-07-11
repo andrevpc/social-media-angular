@@ -245,6 +245,11 @@ export class MainPageComponent implements AfterContentInit {
       item.iLiked = null;
       item.post.likes += bool ? -1 : +1
     }
+    else if(item.iLiked === !bool)
+    {
+      item.iLiked = bool;
+      item.post.likes += bool ? +2 : -2
+    }
     else
     {
       item.iLiked = bool

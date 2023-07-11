@@ -40,4 +40,16 @@ public class LikeRepository : ILikeRepository
         
         return theLike;
     }
+
+    public async Task<List<Like>> GetLikesFromAPost(int id)
+    {
+        var query =
+            from likedb in context.Likes
+            where likedb.PostsId == id
+            select likedb;
+        
+        var likeList = await query.ToListAsync();
+        
+        return likeList;
+    }
 }

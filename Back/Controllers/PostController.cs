@@ -42,12 +42,20 @@ public class PostController : ControllerBase
     public async Task<ActionResult<PostData>> delete(
             [FromBody] PostData data,
             [FromServices] IPostRepository repo,
+            [FromServices] ILikeRepository repoLike,
             [FromServices] JwtService jwt)
     {
         Post post = await repo.FindById(data.Id);
         if (post is null)
         {
             return BadRequest();
+        }
+
+        var likes = await repoLike.GetLikesFromAPost(data.Id);
+
+        foreach (var like in likes)
+        {
+            await repoLike.DeleteLike(like);
         }
 
         await repo.Delete(post);

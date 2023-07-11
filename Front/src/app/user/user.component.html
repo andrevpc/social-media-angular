@@ -55,7 +55,7 @@
     <h1 id="titles">Following</h1>
     <cdk-virtual-scroll-viewport style="margin-left: 10px;" itemSize="50" class="example-viewport">
         <div style="display: flex;" *cdkVirtualFor="let item of itemsFollowing" class="example-item">
-            <a href="user-component/{{item.idAndUsername.userID}}"
+            <a (click)="goToUser(item.idAndUsername.userID)"
                 style="cursor: pointer;text-decoration: none;color: var(--gold);">
                 <h1>{{item.idAndUsername.username}}</h1>
             </a>
